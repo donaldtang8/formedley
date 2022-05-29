@@ -7,6 +7,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core.module';
 import * as fromApp from './store/app.reducer';
@@ -15,7 +16,8 @@ import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
