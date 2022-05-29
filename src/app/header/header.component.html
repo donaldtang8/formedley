@@ -1,0 +1,19 @@
+<nav>
+    <div>
+        <a href="#">formedley</a>
+    </div>
+
+    <div *ngIf="isAuthenticated; else defaultHeader">
+        <ul>
+            <li routerLinkActive="active"><a routerLink="/">Home</a></li>
+            <li routerLinkActive="active"><a routerLink="/create">Create</a></li>
+            <li routerLinkActive="active"><a routerLink="/responses">Responses</a></li>
+            <li><a style="cursor: pointer;" (click)="onLogout()">Logout</a></li>
+        </ul>
+    </div>
+    <ng-template #defaultHeader>
+        <ul>
+            <li><a routerLink="/auth">Login</a></li>
+        </ul>
+    </ng-template>
+</nav>
