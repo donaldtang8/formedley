@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import * as fromApp from '../store/app.reducer';
-import * as AuthActions from './store/auth.actions';
+import * as fromApp from '../../store/app.reducer';
+import * as AuthActions from '../../store/auth/auth.actions';
 
 @Component({
     selector: 'app-auth',
@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+        console.log("Loaded auth component");
         this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
             this.error = authState.authError;
@@ -64,5 +65,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        if (this.storeSub) {
+            this.storeSub.unsubscribe();
+        }
     }
 }
