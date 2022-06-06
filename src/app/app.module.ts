@@ -7,27 +7,27 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './core/components/header/header.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CustomFormsModule } from './features/forms/forms.module';
 import { SharedModule } from './shared/shared.module';
-import { CoreModule } from './core.module';
+import { CoreModule } from './core/core.module';
 import * as fromApp from './store/app.reducer';
-import { AuthEffects } from './auth/store/auth.effects';
+import { AuthEffects } from './store/auth/auth.effects';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    CustomFormsModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot(),
     SharedModule,
     CoreModule
   ],
