@@ -1,25 +1,18 @@
 export class FormInput {
     constructor(
-        public label: string,
         public inputType: string,
         public inputText: string,
+        public inputAnswer: string,
         public selectOptions: string[],
-        public innerText: string,
-        public selectedOptions: string[]) {
-            this.label = label;
+        public selectedOptions: string[],
+        public multiselect: boolean,
+        public required: boolean) {
             this.inputType = inputType;
             this.inputText = inputText;
+            this.inputAnswer = inputAnswer;
             this.selectOptions = selectOptions;
-            this.innerText = innerText;
             this.selectedOptions = selectedOptions;
-            
-            if (this.inputType === 'text') {
-                this.selectOptions = null;
-                this.selectedOptions = null;
-            }
-            else {
-                this.inputText = null;
-                this.innerText = null;
-            }
+            this.multiselect = multiselect;
+            this.required = required;
         }
 }
