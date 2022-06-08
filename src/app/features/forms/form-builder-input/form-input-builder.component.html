@@ -1,0 +1,52 @@
+<div class="form-input-builder">
+    <form [formGroup]="formInputBuilder" (ngSubmit)="onSubmit()" #formInputBuilderRef="ngForm">
+        <label for="input-text">Question:</label>
+        <input
+            type="text"
+            id="input-text"
+            placeHolder="Enter your question"
+            formControlName="inputText" />
+        <select (change)="onChangeType($event)">
+            <option *ngFor="let questionType of questionTypes">
+                {{ questionType }}
+            </option>
+        </select>
+        <input type="checkbox" name="required" value="true" (change)="toggleRequired()">
+        <label for="required">Make this question required</label>
+        <!-- <div *ngIf="type === 'Short answer'">
+            <input
+                type="text"<ng-template>
+                id="answer-text"
+                placeHolder="Answer"
+                formControlName="inputAnswer" />
+        </div>
+        <div *ngIf="type === 'Paragraph'">
+            <textarea 
+                placeHolder="Paragraph"
+                formControlName="inputAnswer">
+            </textarea>
+        </div> -->
+        <div *ngIf="type === 'Multiple choice'">
+            <input type="checkbox" name="multiselect" value="true" (change)="toggleMultiSelect()">
+            <label for="multiselect">Enable multi-select</label><br>
+            <div formArrayName='selectOptions'>
+                <div
+                    *ngFor="let optionControl of optionsControls; let i = index"
+                    [formGroupName]="i">
+                        <input
+                            type="text"
+                            formControlName="option"
+                     />
+                </div>
+                <div>
+                    <button type="button" (click)="onAddOption()">Add Option</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit" [disabled]="!formInputBuilder.valid">Submit</button>
+            <button type="button" (click)="onChangeTest()">Test</button>
+        </div>
+    </form>
+    
+</div>
