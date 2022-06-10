@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { FormInput } from 'src/app/core/models/form-input.model';
 
 @Component({
@@ -8,11 +9,21 @@ import { FormInput } from 'src/app/core/models/form-input.model';
 })
 export class FormInputBuilderComponent implements OnInit {
   questionTypes: string[] = ['Short answer', 'Paragraph', 'Multiple choice']
-  editMode = false;
   type:string = 'Short answer';
   formInputBuilder: FormGroup;
   selectOptions = new FormArray([]);
-  
+  @Input() name: string;
+  @Input() childSubject: BehaviorSubject<{
+    name: string,
+    data: FormInput,
+    valid: boolean
+  }>;
+  @Output() createQuestionEvent: EventEmitter<{name: string, data: FormInput}> = new EventEmitter<{name:string, data: FormInput}>();
+  editMode = false;
+  formValid = false;
+  submitted = false;
+
+  // if form was submited and form is now invalid, we remove the formcontrol in the parent component
   constructor() { 
   }
 
@@ -21,6 +32,8 @@ export class FormInputBuilderComponent implements OnInit {
   }
 
   ngOnInit() {
+    // check if params includes an edit and form id parameter - if so, load form control
+    console.log(this.childSubject);
     this.initSelectForm();
     this.selectOptions.push(new FormGroup({
       option: new FormControl(null, Validators.required)
@@ -28,6 +41,24 @@ export class FormInputBuilderComponent implements OnInit {
     this.selectOptions.push(new FormGroup({
       option: new FormControl(null, Validators.required)
     }));
+    // listen to form changes
+    this.formInputBuilder.valueChanges.subscribe(() => {
+      // if (this.submitted && form is not valid anymore)
+      if (this.formInputBuilder.status === "INVALID") {
+        console.log("Inside form was changed, and is now invalid");
+        if (this.submitted) {
+          console.log("Was previously submitted so we need to mark it as invalid");
+          this.childSubject.next({
+            name: this.childSubject.value.name,
+            data: null,
+            valid: false
+          })
+        }
+        this.formValid = false;
+      } else {
+        this.formValid = true;
+      }
+    })
   }
 
   initSelectForm() {
@@ -80,7 +111,6 @@ export class FormInputBuilderComponent implements OnInit {
       formInputOptions = this.formInputBuilder.get('selectOptions').value.map((value) => {
         return value.option;
       });
-      console.log(formInputOptions);
     }
     let formInput = new FormInput(
       this.formInputBuilder.get('inputType').value,
@@ -91,7 +121,17 @@ export class FormInputBuilderComponent implements OnInit {
       this.formInputBuilder.get('multiselect').value,
       this.formInputBuilder.get('required').value
     )
-    // let formInput = new FormInput(this.formInputBuilder.value);
+    if (this.editMode) {
+      // update form
+    } else {
+      this.childSubject.next({
+        name: this.childSubject.value.name,
+        data: formInput,
+        valid: true
+      })
+    }
+    this.submitted = true;
+    console.log("Form has been submitted");
   }
 
   onChangeTest() {
