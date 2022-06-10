@@ -1,4 +1,5 @@
 <div class="form-input-builder">
+    <p *ngIf="!formValid">Form is invalid</p>
     <form [formGroup]="formInputBuilder" (ngSubmit)="onSubmit()" #formInputBuilderRef="ngForm">
         <label for="input-text">Question:</label>
         <input

@@ -1,9 +1,11 @@
 <div>
-    <!-- form create -->
-    <ng-template appPlaceholder></ng-template>
+    <form [formGroup]="formBuilder" (ngSubmit)="onSubmit()">
+        <input type="text" placeHolder="Form Title" formControlName="title" />
+        <ng-template appPlaceholder></ng-template>
     
-    <button type="button" (click)="addQuestion()">Add Question</button>
+        <button type="button" (click)="addQuestion()">Add Question</button>
 
-    <!-- create buton form -->
-    <button type="button" (click)="onCreateForm()">Create</button>
+        <button type="submit" [disabled]="!formValid">Submit</button>
+        <button type="button" (click)="testSubjectValues()">Test Subject Values</button>
+    </form>
 </div>
