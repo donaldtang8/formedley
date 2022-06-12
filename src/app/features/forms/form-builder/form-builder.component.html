@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="formBuilder" (ngSubmit)="onSubmit()">
+    <form *ngIf="!submitted; else postView" [formGroup]="formBuilder" (ngSubmit)="onSubmit()">
         <input type="text" placeHolder="Form Title" formControlName="title" />
         <ng-template appPlaceholder></ng-template>
     
@@ -7,5 +7,11 @@
 
         <button type="submit" [disabled]="!formValid">Submit</button>
         <button type="button" (click)="testSubjectValues()">Test Subject Values</button>
+
+        <button (click)="retrieveForms()">Retrieve Forms</button>
     </form>
+    <ng-template #postView>
+        Thank you for submitting your form.
+        <!-- Share link -->
+    </ng-template>
 </div>

@@ -18,11 +18,14 @@ export function formsReducer(state = initialState, action: FormsActions.FormsAct
         case FormsActions.ADD_FORM:
             return {
                 ...state,
-                forms: [
-                    ...state.forms,
-                    action.payload
-                ]
+                form: action.payload,
+                forms: [ ...state.forms, action.payload ]
             };
+        case FormsActions.SET_FORMS:
+            return {
+                ...state,
+                forms: action.payload
+            }
         case FormsActions.DELETE_FORM:
             return {
                 ...state,

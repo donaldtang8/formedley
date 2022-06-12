@@ -14,6 +14,7 @@ import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
+import { FormsEffects } from './store/forms/forms.effects';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
@@ -26,7 +27,7 @@ import { environment } from 'src/environments/environment';
     AppRoutingModule,
     CustomFormsModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, FormsEffects ]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     SharedModule,
     CoreModule

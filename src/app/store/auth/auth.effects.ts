@@ -106,6 +106,7 @@ export class AuthEffects {
                 }
             ).pipe(
                 tap(resData => {
+                    console.log(resData);
                     this.authService.setLogoutTimer(+resData.expiresIn * 1000)
                 }),
                 map(resData => {

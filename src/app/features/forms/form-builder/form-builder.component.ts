@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { FormInputBuilderComponent } from '../form-builder-input/form-input-builder.component';
@@ -7,9 +8,9 @@ import { PlaceholderDirective } from '../../../shared/placeholder/placeholder.di
 import * as fromApp from '../../../store/app.reducer';
 import * as FormActions from '../../../store/forms/forms.actions';
 import { Form } from 'src/app/core/models/form.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+
 import { FormInput } from 'src/app/core/models/form-input.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-form-builder',
@@ -29,9 +30,11 @@ export class FormBuilderComponent implements OnInit {
     }>[] = [];
     childFormValid: boolean = false;
     formValid:boolean = false;
+    submitted = false;
 
     constructor(
         private store: Store<fromApp.AppState>,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -76,22 +79,41 @@ export class FormBuilderComponent implements OnInit {
     }
 
     checkValid(): boolean {
-        console.log("Checking status");
         const status = this.formBuilder.valid && this.childCompSubjects.length > 0 && !this.childCompSubjects.some(sub => sub.value.valid === false);
         return status;
+    }
+
+    onSubmit() {
+        if (this.formValid) {
+            const inputArr = [];
+            for (const control in this.formBuilder.controls) {
+                if (control !== 'title') {
+                    inputArr.push(this.formBuilder.get(control).value);
+                }
+            }
+            let userId;
+            this.store.select('auth')
+                .pipe(
+                    take(1)
+                )
+                .subscribe(userState => {
+                   userId = userState.user.id;
+                }
+            )
+            const newForm = new Form(this.formBuilder.get('title').value, userId, inputArr);
+            this.store.dispatch(new FormActions.AddForm(newForm));
+            this.router.navigate(['/']);
+        }
+        else {
+            console.log("Form is invalid");
+        }
     }
 
     testSubjectValues() {
         console.log(this.childCompSubjects);
     }
 
-    onSubmit() {
-        if (this.checkValid()) {
-            console.log("Form is valid");
-            console.log(this.formBuilder.value);
-        }
-        else {
-            console.log("Form is invalid");
-        }
+    retrieveForms() {
+        this.store.dispatch(new FormActions.FetchForms());
     }
 }
