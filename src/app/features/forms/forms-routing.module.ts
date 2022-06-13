@@ -4,6 +4,7 @@ import { AuthGuard } from '../../core/guards/auth.guard';
 
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { DiscoverComponent } from './discover/discover.component';
+import { ResponseFormComponent } from './response/response-form/response-form-component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/create', pathMatch: 'full' },
@@ -16,6 +17,10 @@ const routes: Routes = [
         path: 'discover',
         component: DiscoverComponent,
         canActivate: [AuthGuard]
+    },
+    { 
+        path: 'id/:id',
+        component: ResponseFormComponent,
     }
 ]
 
