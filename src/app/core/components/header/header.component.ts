@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
 
-import * as fromApp from '../store/app.reducer';
-import * as AuthActions from '../auth/store/auth.actions';
+import * as fromApp from '../../../store/app.reducer';
+import * as AuthActions from '../../../store/auth/auth.actions';
 
 @Component({
     selector: 'app-header',
@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(private store: Store<fromApp.AppState>) {}
 
     ngOnInit() {
+        console.log('Header component has been loaded');
         this.userSubscription = this.store
             .select('auth')
             .pipe(

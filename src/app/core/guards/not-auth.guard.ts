@@ -6,7 +6,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 
 @Injectable({ providedIn: "root" })
-export class AuthGuard implements CanActivate {
+export class NotAuthGuard implements CanActivate {
     constructor( private router: Router, private store: Store<fromApp.AppState>) {}
     
     canActivate(
@@ -25,9 +25,10 @@ export class AuthGuard implements CanActivate {
             map(user => {
                 const isAuth = !!user;
                 if (isAuth) {
-                    return true;
+                    return false;
+                    console.log('Already authenticated');
                 }
-                return this.router.createUrlTree(['/auth']);
+                return true;
             })
         );
     }
