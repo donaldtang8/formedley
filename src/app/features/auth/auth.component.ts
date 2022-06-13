@@ -22,7 +22,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        console.log("Loaded auth component");
         this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
             this.error = authState.authError;
@@ -34,15 +33,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     onSubmit(form: NgForm) {
-        console.log("Submitting form");
         if (!form.valid) {
             return;
         }
         const email = form.value.email;
         const password = form.value.password;
-
-        console.log(`Email is ${email}`);
-        console.log(`Password is ${password}`);
 
         if (this.isLoginMode) {
             // request to login
