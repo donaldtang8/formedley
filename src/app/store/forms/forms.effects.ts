@@ -29,9 +29,19 @@ export class FormsEffects {
     fetchForms = this.actions$.pipe(
         ofType(FormsActions.FETCH_FORMS),
         switchMap(() => {
-            return this.http.get<Form[]>(
+            return this.http.get<any>(
                 'https://formedley-21c58-default-rtdb.firebaseio.com/forms.json',
             )
+        }),
+        map((responseObj) => {
+            let forms = [];
+            for (let obj in responseObj) {
+                const formObj = responseObj[obj];
+                const newForm = new Form(formObj.title, formObj.userId, formObj.inputs);
+                newForm.id = obj;
+                forms.push(newForm);
+            }
+            return forms;
         }),
         map(forms => {
             console.log(forms);
@@ -40,7 +50,7 @@ export class FormsEffects {
     )
 
     constructor(
-        private actions$: Actions,
+        private actions$: Actions<FormsActions.FormsActions>,
         private http: HttpClient,
         private store: Store<fromApp.AppState>
     ) {}
