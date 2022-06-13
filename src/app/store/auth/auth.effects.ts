@@ -5,8 +5,8 @@ import { Actions, ofType, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../auth.service';
-import { User } from '../user.model';
+import { AuthService } from '../../features/auth/auth.service';
+import { User } from '../../core/models/user.model';
 
 import * as AuthActions from './auth.actions';
 
@@ -106,6 +106,7 @@ export class AuthEffects {
                 }
             ).pipe(
                 tap(resData => {
+                    console.log(resData);
                     this.authService.setLogoutTimer(+resData.expiresIn * 1000)
                 }),
                 map(resData => {
@@ -132,7 +133,7 @@ export class AuthEffects {
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
         tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
             if (authSuccessAction.payload.redirect) {
-                this.router.navigate(['/']);
+                this.router.navigate(['/forms/create']);
             }
         })
     )

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromApp from './store/app.reducer';
-import * as AuthActions from './auth/store/auth.actions';
+import * as AuthActions from './store/auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,10 @@ export class AppComponent {
   title = 'formedley';
 
   constructor(private store: Store<fromApp.AppState>) {}
+
+  ngOnInit() {
+    this.store.dispatch(new AuthActions.AutoLogin());
+  }
 
   logout() {
     this.store.dispatch(new AuthActions.Logout());
