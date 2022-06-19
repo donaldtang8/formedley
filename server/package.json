@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "ng serve --prefix client",
-    "server": "nodemon server.js",
-    "build": "cd client && ng build",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -29,9 +26,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^7.2.2",
-    "nodemon": "^2.0.16"
-  }
+  "license": "ISC"
 }
