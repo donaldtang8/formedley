@@ -14,19 +14,6 @@
         </select>
         <input type="checkbox" name="required" value="true" (change)="toggleRequired()">
         <label for="required">Make this question required</label>
-        <!-- <div *ngIf="type === 'Short answer'">
-            <input
-                type="text"<ng-template>
-                id="answer-text"
-                placeHolder="Answer"
-                formControlName="inputAnswer" />
-        </div>
-        <div *ngIf="type === 'Paragraph'">
-            <textarea 
-                placeHolder="Paragraph"
-                formControlName="inputAnswer">
-            </textarea>
-        </div> -->
         <div *ngIf="type === 'Multiple choice'">
             <input type="checkbox" name="multiselect" value="true" (change)="toggleMultiSelect()">
             <label for="multiselect">Enable multi-select</label><br>

@@ -18,7 +18,7 @@ export class FormInputBuilderComponent implements OnInit {
     data: FormInput,
     valid: boolean
   }>;
-  @Output() createQuestionEvent: EventEmitter<{name: string, data: FormInput}> = new EventEmitter<{name:string, data: FormInput}>();
+  // @Output() createQuestionEvent: EventEmitter<{name: string, data: FormInput}> = new EventEmitter<{name:string, data: FormInput}>();
   editMode = false;
   formValid = false;
   submitted = false;
@@ -65,7 +65,6 @@ export class FormInputBuilderComponent implements OnInit {
     this.formInputBuilder = new FormGroup({
       'inputType': new FormControl('Short answer'),
       'inputText': new FormControl(null, Validators.required),
-      'inputAnswer': new FormControl(''),
       'selectedOptions': new FormArray([]),
       'multiselect': new FormControl(false),
       'required': new FormControl(false)
@@ -115,9 +114,7 @@ export class FormInputBuilderComponent implements OnInit {
     let formInput = new FormInput(
       this.formInputBuilder.get('inputType').value,
       this.formInputBuilder.get('inputText').value,
-      '',
       formInputOptions,
-      [],
       this.formInputBuilder.get('multiselect').value,
       this.formInputBuilder.get('required').value
     )
