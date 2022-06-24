@@ -23,7 +23,6 @@ const handleAuthentication = (
     user: User,
 ) => {
     localStorage.setItem('userData', JSON.stringify(user));
-    console.log("Authenticate success");
     return new AuthActions.AuthenticateSuccess({
         user: user,
         redirect: true
@@ -55,17 +54,13 @@ export class AuthEffects {
     @Effect()
     authSignup = this.actions$.pipe(
         ofType(AuthActions.SIGNUP),
-        switchMap((signupAction: AuthActions.Signup) => {
+        switchMap((signupData: AuthActions.Signup) => {
             return this.http.post<AuthResponseData>(
                 'http://localhost:5000/api/user/signup',
-                signupAction.payload
+                signupData.payload
             ).pipe(
                 map(resData => {
-                    console.log(resData);
-                    const { _id, email, firstName, lastName, username, role } = resData.data.user;
-                    return handleAuthentication(
-                        new User(_id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn)
-                    );
+                    return handleAuthentication(resData.data.user);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
@@ -85,15 +80,8 @@ export class AuthEffects {
                 'http://localhost:5000/api/user/login',
                 authData.payload
             ).pipe(
-                tap(resData => {
-                    console.log(resData);
-                    console.log(resData.data.user._id);
-                }),
                 map(resData => {
-                    const { _id, email, firstName, lastName, username, role } = resData.data.user;
-                    return handleAuthentication(
-                        new User(_id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn)
-                    );
+                    return handleAuthentication(resData.data.user);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
