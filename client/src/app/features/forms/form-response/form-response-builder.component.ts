@@ -119,12 +119,10 @@ export class FormResponseBuilderComponent implements OnInit {
                 }
             )
         }
-        const newFormResponse = new FormResponse(responseArr);
-        newFormResponse.user = userId;
-        newFormResponse.form = this.id;
         this.store.dispatch(new ResponsesActions.AddResponse({
-            formId: this.id,
-            response: newFormResponse
-        }));
+            form: this.id,
+            user: userId,
+            responses: responseArr
+        }))
     }
 }
