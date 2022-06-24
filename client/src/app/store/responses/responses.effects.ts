@@ -15,24 +15,19 @@ export class ResponsesEffects {
     formCreateResponse = this.actions$.pipe(
         ofType(ResponsesActions.ADD_RESPONSE),
         switchMap((formAddResponseAction: ResponsesActions.AddResponse) => {
+            const {form, user, responses} = formAddResponseAction.payload;
             return this.http.post<any>(
-                `http://localhost:5000/api/forms/${formAddResponseAction.payload.formId}/responses`,
-                formAddResponseAction.payload.response
+                `http://localhost:5000/api/forms/${formAddResponseAction.payload.form}/responses`,
+                {
+                    form: form,
+                    user: user,
+                    responses: responses
+                }
             )
         }),
         map((resData) => {
-            // FIX THIS - MATCH FORM RESPONSE MODEL TO BACKEND RESPONSE MODEL
-            const { id, responses, user, form, viewed, createdAt } = resData.data.doc;
-            let newResponse = new FormResponse(
-                responses
-            );
-            newResponse.id = id;
-            newResponse.user = user;
-            newResponse.form = form;
-            newResponse.viewed = viewed;
-            newResponse.createdAt = createdAt;
             return new ResponsesActions.AddResponseSuccess({
-                response: newResponse,
+                response: resData.data.doc,
                 redirect: true
             });
         })
