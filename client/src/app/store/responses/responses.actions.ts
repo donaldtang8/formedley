@@ -1,5 +1,6 @@
 import { FormResponse } from '../../core/models/form-response.model';
 import { Action } from "@ngrx/store";
+import { FormInputResponse } from 'src/app/core/models/form-input-response.model';
 
 export const ADD_RESPONSE = '[Response] Add response';
 export const ADD_RESPONSE_SUCCESS = '[Response] Add response success';
@@ -13,7 +14,7 @@ export const SET_RESPONSE_VIEWED = '[Response] Set response viewed';
 export class AddResponse implements Action {
     readonly type = ADD_RESPONSE;
 
-    constructor(public payload: { formId: string, response: FormResponse }) {}
+    constructor(public payload: { form: string, user: string, responses: FormInputResponse[] }) {}
 }
 
 export class AddResponseSuccess implements Action {
