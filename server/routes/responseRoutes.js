@@ -1,6 +1,5 @@
 const express = require('express');
 const authController = require('./../controllers/authController');
-const formController = require('../controllers/formController');
 const responseController = require('./../controllers/responseController');
 
 // router middleware
@@ -11,12 +10,19 @@ router.use(authController.protect);
 
 router
     .route('/')
-    .get(responseController.validateFormId, responseController.getAll)
+    .get(responseController.validateFormId, responseController.setFormAndUserId, responseController.getFormResponses)
     .post(responseController.validateFormId, responseController.setFormAndUserId, responseController.createOne);
 
 router
+    .route('/new')
+    .get(responseController.validateFormId, responseController.setFormAndUserId, responseController.getNewResponses);
+
+router
+    .route('/:id/view')
+    .patch(responseController.validateFormId, responseController.setFormAndUserId, responseController.viewResponseById);
+
+router
     .route('/:id')
-    .get(responseController.getOne)
-    .delete(responseController.deleteOne);
+    .get(responseController.validateFormId, responseController.setFormAndUserId, responseController.getOne);
 
 module.exports = router;

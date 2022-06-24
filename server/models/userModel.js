@@ -5,17 +5,17 @@ const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
   {
-    fName: {
+    firstName: {
       type: String,
       maxlength: [15, 'Please enter your first name under 15 characters long.'],
       required: [true, 'First name is required'],
     },
-    lName: {
+    lastName: {
       type: String,
       maxlength: [15, 'Please enter your last name under 15 characters long.'],
       required: [true, 'Last name is required'],
     },
-    uName: {
+    username: {
       type: String,
       required: [true, 'Username is required'],
       unique: true,
@@ -58,22 +58,13 @@ const userSchema = new mongoose.Schema(
     passResetExpires: Date
   },
   {
-    toJSON: { virtuals: true },
+    versionKey: false,
     toObject: { virtuals: true },
   }
 );
 
 /* INDEX */
-userSchema.index({ uName: 1 });
-
-/* VIRTUALS */
-/**
- * @function  Virtual fullName Getter
- * @description
- **/
-userSchema.virtual('fullName').get(function () {
-  return this.fName + ' ' + this.lName;
-});
+userSchema.index({ username: 1 });
 
 /**
  * @function

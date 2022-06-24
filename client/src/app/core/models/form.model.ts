@@ -4,7 +4,7 @@ export class Form {
     id?: string;
     likes?: string[];
     likeCount?: number;
-    views?: number;
+    views?: string[];
     createdAt: Date;
 
     constructor(public title: string, public userId: string, public inputs: FormInput[]) {

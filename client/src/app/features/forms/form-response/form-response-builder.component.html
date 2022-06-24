@@ -1,0 +1,8 @@
+<div>This is the response form</div>
+<form (ngSubmit)="onSubmit()">
+    <ng-template appPlaceholder></ng-template>
+    <button type="submit" [disabled]="!formValid">Submit</button>
+    <button type="button" (click)="getFormValues()">Get form values</button>
+    <button type="button" (click)="getChildSubjectValues()">Get child subject values</button>
+</form>
+    

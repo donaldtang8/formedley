@@ -1,0 +1,10 @@
+<div *ngIf="!loading">
+    <div *ngIf="isResponseMode; else viewMode">
+        <app-form-response-builder [form]="form"></app-form-response-builder>
+    </div>
+    <ng-template #viewMode>
+        <app-form-view [form]="form"></app-form-view>
+    </ng-template>
+</div>
+
+

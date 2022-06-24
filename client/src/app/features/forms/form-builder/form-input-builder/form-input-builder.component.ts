@@ -33,7 +33,6 @@ export class FormInputBuilderComponent implements OnInit {
 
   ngOnInit() {
     // check if params includes an edit and form id parameter - if so, load form control
-    console.log(this.childSubject);
     this.initSelectForm();
     this.selectOptions.push(new FormGroup({
       option: new FormControl(null, Validators.required)
@@ -45,9 +44,7 @@ export class FormInputBuilderComponent implements OnInit {
     this.formInputBuilder.valueChanges.subscribe(() => {
       // if (this.submitted && form is not valid anymore)
       if (this.formInputBuilder.status === "INVALID") {
-        console.log("Inside form was changed, and is now invalid");
         if (this.submitted) {
-          console.log("Was previously submitted so we need to mark it as invalid");
           this.childSubject.next({
             name: this.childSubject.value.name,
             data: null,
@@ -128,10 +125,5 @@ export class FormInputBuilderComponent implements OnInit {
       })
     }
     this.submitted = true;
-    console.log("Form has been submitted");
-  }
-
-  onChangeTest() {
-    console.log(this.formInputBuilder.get('selectOptions') as FormArray);
   }
 }

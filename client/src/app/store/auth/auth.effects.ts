@@ -11,29 +11,21 @@ import { User } from '../../core/models/user.model';
 import * as AuthActions from './auth.actions';
 
 export interface AuthResponseData {
-    kind: string;
-    idToken: string;
-    email: string;
-    refreshToken: string;
-    expiresIn: string;
-    localId: string;
-    registered?: boolean;
+    status: string,
+    data: {
+        user: User,
+        token: string,
+        expiresIn: Date
+    }
 }
 
 const handleAuthentication = (
-    expiresIn: number,
-    email: string,
-    userId: string,
-    token: string
+    user: User,
 ) => {
-    const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
     localStorage.setItem('userData', JSON.stringify(user));
+    console.log("Authenticate success");
     return new AuthActions.AuthenticateSuccess({
-        email: email,
-        userId: userId,
-        token: token,
-        expirationDate: expirationDate,
+        user: user,
         redirect: true
     });
 }
@@ -65,22 +57,14 @@ export class AuthEffects {
         ofType(AuthActions.SIGNUP),
         switchMap((signupAction: AuthActions.Signup) => {
             return this.http.post<AuthResponseData>(
-                'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey,
-                {
-                    email: signupAction.payload.email,
-                    password: signupAction.payload.password,
-                    returnSecureToken: true
-                }
+                'http://localhost:5000/api/user/signup',
+                signupAction.payload
             ).pipe(
-                tap(resData => {
-                    this.authService.setLogoutTimer(+resData.expiresIn * 1000)
-                }),
                 map(resData => {
+                    console.log(resData);
+                    const { _id, email, firstName, lastName, username, role } = resData.data.user;
                     return handleAuthentication(
-                        +resData.expiresIn,
-                        resData.email,
-                        resData.localId,
-                        resData.idToken
+                        new User(_id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn)
                     );
                 }),
                 catchError(errorResponse => {
@@ -98,23 +82,17 @@ export class AuthEffects {
         ofType(AuthActions.LOGIN),
         switchMap((authData: AuthActions.Login) => {
             return this.http.post<AuthResponseData>(
-                'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAPIKey,
-                {
-                    email: authData.payload.email,
-                    password: authData.payload.password,
-                    returnSecureToken: true
-                }
+                'http://localhost:5000/api/user/login',
+                authData.payload
             ).pipe(
                 tap(resData => {
                     console.log(resData);
-                    this.authService.setLogoutTimer(+resData.expiresIn * 1000)
+                    console.log(resData.data.user._id);
                 }),
                 map(resData => {
+                    const { _id, email, firstName, lastName, username, role } = resData.data.user;
                     return handleAuthentication(
-                        +resData.expiresIn,
-                        resData.email,
-                        resData.localId,
-                        resData.idToken
+                        new User(_id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn)
                     );
                 }),
                 catchError(errorResponse => {
@@ -143,31 +121,35 @@ export class AuthEffects {
         ofType(AuthActions.AUTO_LOGIN),
         map(() => {
             const userData: {
-                email: string;
-                id: string;
-                _token: string;
-                _tokenExpirationDate: string;
+                _id: string,
+                email: string,
+                firstName: string,
+                lastName: string,
+                username: string,
+                role: string,
+                token: string;
+                tokenExpirationDate: string;
             } = JSON.parse(localStorage.getItem('userData') || '{}');
     
             if (!userData) {
                 return { type: 'DUMMY' };
             }
             const loadedUser = new User(
+                userData._id,
                 userData.email,
-                userData.id,
-                userData._token,
-                new Date(userData._tokenExpirationDate)
+                userData.firstName,
+                userData.lastName,
+                userData.username,
+                userData.role,
+                userData.token,
+                new Date(userData.tokenExpirationDate)
             );
             
-            if (loadedUser.token) {
-                // this.user.next(loadedUser);
-                const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+            if (loadedUser.getToken) {
+                const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
                 this.authService.setLogoutTimer(expirationDuration);
                 return new AuthActions.AuthenticateSuccess({
-                    email: loadedUser.email,
-                    userId: loadedUser.id,
-                    token: loadedUser.token,
-                    expirationDate: new Date(userData._tokenExpirationDate),
+                    user: loadedUser,
                     redirect: false
                 });
             }

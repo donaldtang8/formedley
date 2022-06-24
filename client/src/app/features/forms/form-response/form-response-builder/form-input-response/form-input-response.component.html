@@ -1,0 +1,45 @@
+<div *ngIf="!formValid">INVALID</div>
+<form [formGroup]="formInputResponseBuilder">
+    <label for="childSubject.getValue(name)">{{ inputQuestion.inputText }}<span *ngIf="inputQuestion.required">*</span></label>
+    <div *ngIf="inputQuestion.inputType==='Short answer'">
+        <input 
+            type="text"
+            placeHolder="Enter your answer"
+            formControlName="inputAnswer"
+            [required]="inputQuestion.required" />
+    </div>
+    <div *ngIf="inputQuestion.inputType==='Paragraph'">
+        <textarea 
+            placeHolder="Enter your answer"
+            formControlName="inputAnswer"
+            [required]="inputQuestion.required">
+        </textarea>
+    </div>
+    <div *ngIf="inputQuestion.inputType==='Multiple choice'">
+        <div *ngFor="let option of inputQuestion.selectOptions; let i = index">
+            <div *ngIf="!inputQuestion.multiselect; else multiselectTemplate">
+                <input
+                    type="radio"
+                    id="{{inputQuestionName}}"
+                    value="{{option}}"
+                    name="{{inputQuestionName}}"
+                    formControlName="{{inputQuestionName}}"
+                    [required]="inputQuestion.required">
+                <label for="{{inputQuestionName}}">{{ option }}</label><br>
+            </div>
+            <ng-template #multiselectTemplate>
+                <input
+                    type="checkbox"
+                    id="'{{inputQuestionName}}"
+                    value="{{option}}"
+                    name="{{inputQuestionName}}"
+                    formControlName="{{inputQuestionName}}"
+                    (change)="updateSelectValues($event)"
+                    [required]="inputQuestion.required">
+                <label for="{{inputQuestionName}}">{{ option }}</label><br>
+            </ng-template>
+        </div>
+    </div>
+
+    <button type="button" (click)="testValidity()">Get input info</button>
+</form>

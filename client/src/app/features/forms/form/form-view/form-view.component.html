@@ -1,0 +1,46 @@
+<div>{{form.title}}</div>
+<form>
+    <!-- <ng-template appPlaceholder></ng-template> -->
+    <div *ngFor="let input of form.inputs; let i = index">
+        <span>{{(i+1) + ". " + input.inputText}}</span>
+        <div *ngIf="input.inputType === 'Short answer'">
+            <input
+                type="text"
+                disabled
+            />
+        </div>
+        <div *ngIf="input.inputType === 'Paragraph'">
+            <textarea
+                style="resize: none;"
+                disabled
+            >
+            </textarea>
+        </div>
+        <div *ngIf="input.inputType === 'Multiple choice'">
+            <div *ngFor="let option of input.selectOptions; let optionIndex = index">
+                <div *ngIf="!input.multiselect">
+                    <input
+                        type="radio"
+                        id="'question#'+index"
+                        name="'question#'+index"
+                        value={{option}}
+                        disabled
+                    />
+                    <label for="'question#'+index">{{option}}</label>
+                </div>
+                <div *ngIf="input.multiselect">
+                    <input
+                        type="checkbox"
+                        id="'question#'+index"
+                        name="'question#'+index"
+                        value={{option}}
+                        disabled
+                    />
+                    <label for="'question#'+index">{{option}}</label>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+</form>
+    

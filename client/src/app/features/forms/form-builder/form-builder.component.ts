@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { FormInputBuilderComponent } from '../form-builder-input/form-input-builder.component';
+import { FormInputBuilderComponent } from './form-input-builder/form-input-builder.component';
 import { PlaceholderDirective } from '../../../shared/placeholder/placeholder.directive';
 import * as fromApp from '../../../store/app.reducer';
 import * as FormActions from '../../../store/forms/forms.actions';
@@ -63,7 +63,7 @@ export class FormBuilderComponent implements OnInit {
             if (val.data) {
                  // check if there is a formcontrol for the current child question
                 if (this.formBuilder.get(val.name)) {
-                    this.formBuilder.get(val.name).patchValue(val.name, val.data);
+                    this.formBuilder.get(val.name).patchValue(val.data);
                 } else {
                     this.formBuilder.addControl(val.name, new FormControl(val.data));
                 }
@@ -97,15 +97,12 @@ export class FormBuilderComponent implements OnInit {
                     take(1)
                 )
                 .subscribe(userState => {
-                   userId = userState.user.id;
+                   userId = userState.user._id;
                 }
             )
             const newForm = new Form(this.formBuilder.get('title').value, userId, inputArr);
             this.store.dispatch(new FormActions.AddForm(newForm));
             this.router.navigate(['/']);
-        }
-        else {
-            console.log("Form is invalid");
         }
     }
 

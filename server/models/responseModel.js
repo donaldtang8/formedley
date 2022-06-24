@@ -32,6 +32,10 @@ const responseSchema = new mongoose.Schema(
         type: mongoose.Schema.ObjectId,
         ref: 'Form'
     },
+    viewed: {
+      type: Boolean,
+      default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -57,7 +61,12 @@ responseSchema.pre(/^find/, function (next) {
       select: '-__v -passwordChangedAt',
     });
     next();
-  });
+});
+
+// INSTANCE/STATIC METHODS
+responseSchema.methods.viewedResponse = function () {
+  return this.viewed;
+};
 
 const Response = mongoose.model('Response', responseSchema);
 module.exports = Response;
