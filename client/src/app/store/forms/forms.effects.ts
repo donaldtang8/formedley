@@ -19,33 +19,36 @@ export class FormsEffects {
         switchMap(([actionData, formsState]) => {
             return this.http
             .post(
-                'https://formedley-21c58-default-rtdb.firebaseio.com/forms.json',
+                'http://localhost:5000/api/forms/',
                 formsState.form
             )
         })
     )
 
     @Effect()
-    fetchForms = this.actions$.pipe(
-        ofType(FormsActions.FETCH_FORMS),
-        switchMap(() => {
+    fetchForm = this.actions$.pipe(
+        ofType(FormsActions.FETCH_FORM_BY_ID),
+        switchMap((fetchFormAction: FormsActions.FetchFormById) => {
             return this.http.get<any>(
-                'https://formedley-21c58-default-rtdb.firebaseio.com/forms.json',
+                `http://localhost:5000/api/forms/id/${fetchFormAction.payload}`
             )
         }),
-        map((responseObj) => {
-            let forms = [];
-            for (let obj in responseObj) {
-                const formObj = responseObj[obj];
-                const newForm = new Form(formObj.title, formObj.userId, formObj.inputs);
-                newForm.id = obj;
-                forms.push(newForm);
-            }
-            return forms;
+        map((resData) => {
+            const { title, user, inputs } = resData.data.doc;
+            return new FormsActions.FetchFormSuccess(new Form(title, user._id, inputs))
+        })
+    )
+
+    @Effect()
+    fetchFormsByUser = this.actions$.pipe(
+        ofType(FormsActions.FETCH_FORMS_BY_USER),
+        switchMap((fetchFormsUser: FormsActions.FetchFormsByUser) => {
+            return this.http.get<any>(
+                `http://localhost:5000/api/forms/user/${fetchFormsUser.payload}`
+            )
         }),
-        map(forms => {
-            console.log(forms);
-            return new FormsActions.SetForms(forms);
+        map((resData) => {
+            return new FormsActions.FetchFormsSuccess(resData.data.doc)
         })
     )
 
