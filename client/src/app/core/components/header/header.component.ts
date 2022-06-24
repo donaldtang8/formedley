@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(private store: Store<fromApp.AppState>) {}
 
     ngOnInit() {
-        console.log('Header component has been loaded');
         this.userSubscription = this.store
             .select('auth')
             .pipe(
@@ -26,7 +25,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             .subscribe(user => {
                 this.isAuthenticated = !!user;
             });
-        console.log(this.isAuthenticated);
     }
 
     onLogout() {

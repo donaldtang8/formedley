@@ -41,9 +41,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         const email = form.value.email;
         const password = form.value.password;
 
-        console.log(`Email is ${email}`);
-        console.log(`Password is ${password}`);
-
         if (this.isLoginMode) {
             // request to login
              this.store.dispatch(new AuthActions.Login({
@@ -51,13 +48,27 @@ export class AuthComponent implements OnInit, OnDestroy {
                 password: password
              }))
         } else {
-            // request to signup
-            this.store.dispatch(new AuthActions.Signup({
-                email: email,
-                password: password
-            }))
+            const firstName = form.value.firstName;
+            const lastName = form.value.lastName;
+            const username = form.value.username;
+            const passwordConfirm = form.value.passwordConfirm;
+            if (password !== passwordConfirm) {
+                console.log("Error");
+                this.error = 'Passwords must match';
+            }
+            else {
+                console.log("Sending action");
+                this.store.dispatch(new AuthActions.Signup({
+                    firstName: firstName,
+                    lastName: lastName,
+                    username: username,
+                    email: email,
+                    password: password,
+                    passwordConfirm: passwordConfirm
+                }))
+            }
         }
-        form.reset();
+        // form.reset();
     }
 
     onHandleError() {

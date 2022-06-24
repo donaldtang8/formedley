@@ -1,0 +1,12 @@
+<div *ngIf="response">
+    <div *ngFor="let formInputResponse of response.responses; let i = index">
+        <div>{{ "Question" + (i+1) }}</div>
+        <div>{{ formInputResponse.inputText }}</div>
+        <div *ngIf="formInputResponse.inputAnswer; else optionValues">{{ formInputResponse.inputAnswer }}</div>
+        <ng-template #optionValues>
+            <ul *ngFor="let option of formInputResponse.selectedOptions">
+                <li>{{ option }}</li>
+            </ul>
+        </ng-template>
+    </div>
+</div>

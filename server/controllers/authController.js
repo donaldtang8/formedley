@@ -101,8 +101,9 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   // define cookie options with expires time and httpOnly option
   let days = 7;
+  let expirationDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
   const cookieOptions = {
-    expires: new Date(Date.now() + days * 24 * 60 * 60 * 1000),
+    expires: expirationDate,
     httpOnly: true,
   };
   // in development mode, http is used, so we do not use the secure option in development mode, only in production mode
@@ -114,9 +115,10 @@ const createSendToken = (user, statusCode, res) => {
 
   res.status(statusCode).json({
     status: 'success',
-    token: token,
     data: {
       user: user,
+      token: token,
+      expiresIn: expirationDate,
     },
   });
 };
@@ -126,10 +128,11 @@ const createSendToken = (user, statusCode, res) => {
  * @description Signup user
  **/
 exports.signup = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const newUser = await User.create({
-    fName: req.body.firstName,
-    lName: req.body.lastName,
-    uName: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    username: req.body.username,
     email: req.body.email,
     role: 'user',
     pass: req.body.password,

@@ -1,0 +1,5 @@
+<div *ngIf="responses.length > 0">
+    <div *ngFor="let response of responses; let i = index">
+        <div (click)="viewResponses(response.id)">{{ 'Response ' + i }}</div>
+    </div>
+</div>

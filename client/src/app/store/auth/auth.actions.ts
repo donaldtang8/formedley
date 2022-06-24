@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { User } from 'src/app/core/models/user.model';
 
 export const LOGIN = '[Auth] Login'
 export const AUTHENTICATE_SUCCESS = '[Auth] Login Success';
@@ -13,10 +14,7 @@ export class AuthenticateSuccess implements Action {
 
     constructor(
         public payload: { 
-            email: string,
-            userId: string,
-            token: string,
-            expirationDate: Date,
+            user: User
             redirect: boolean
         }
     ) {}
@@ -41,7 +39,7 @@ export class AuthenticateFail implements Action {
 export class Signup implements Action {
     readonly type = SIGNUP;
 
-    constructor(public payload: { email: string; password: string }) {}
+    constructor(public payload: { firstName: string, lastName: string, username: string, email: string; password: string, passwordConfirm: string }) {}
 }
 
 export class ClearError implements Action {

@@ -15,11 +15,12 @@ const inputSchema = new mongoose.Schema({
   selectOptions: {
     type: [String]
   },
-  multiSelect: {
+  multiselect: {
     type: Boolean
   },
   required: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 });
 
@@ -43,6 +44,12 @@ const formSchema = new mongoose.Schema(
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
+    responses: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Response'
+      }
+    ],
     likes: [
         {
           type: mongoose.Schema.ObjectId,
@@ -78,15 +85,15 @@ const formSchema = new mongoose.Schema(
 formSchema.index({ createdAt: 1, user: 1 });
 
 // VIRTUAL MIDDLEWARE
-/**
- * @function
- * @description Virtually populate all responses of form
- **/
-formSchema.virtual('responses', {
-    ref: 'Response',
-    foreignField: 'form',
-    localField: '_id',
-});
+// /**
+//  * @function
+//  * @description Virtually populate all responses of form
+//  **/
+// formSchema.virtual('responses', {
+//     ref: 'Response',
+//     foreignField: 'form',
+//     localField: '_id',
+// });
 
 // DOCUMENT MIDDLEWARE
 

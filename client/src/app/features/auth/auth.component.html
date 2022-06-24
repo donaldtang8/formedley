@@ -4,6 +4,32 @@
             Loading...
         </div>
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+            <div *ngIf="!isLoginMode">
+                <label for="firstName">First Name</label>
+                <input
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    ngModel
+                    name="firstName"
+                    required />
+                <label for="lastName">Last Name</label>
+                <input
+                    type="text"
+                    id="lastName"
+                    class="form-control"
+                    ngModel
+                    name="lastName"
+                    required />
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    class="form-control"
+                    ngModel
+                    name="username"
+                    required />
+            </div>
             <div>
                 <label for="email">E-Mail</label>
                 <input
@@ -23,8 +49,17 @@
                     class="form-control"
                     ngModel
                     name="password"
-                    required
-                    minlength="6" />
+                    required />
+            </div>
+            <div *ngIf="!isLoginMode">
+                <label for="passwordConfirm">Password Confirm</label>
+                <input
+                    type="password"
+                    id="passwordConfirm"
+                    class="form-control"
+                    ngModel
+                    name="passwordConfirm"
+                    required />
             </div>
             <div>
                 <button type="submit" [disabled]="!authForm.valid">{{ isLoginMode ? 'Login' : 'Signup' }}</button> |

@@ -6,7 +6,7 @@ const factory = require('./handlerFactory');
 const Form = require('../models/formModel');
 const User = require('../models/userModel');
 
-exports.getAll = factory.getAll(Form, { path: 'responses' });
+exports.getAll = factory.getAll(Form);
 exports.deleteOne = factory.deleteOne(Form);
 
 // MIDDLEWARE
@@ -26,10 +26,7 @@ exports.createOne = catchAsync(async (req, res, next) => {
     .populate({
       path: 'user',
       select: '-__v -passwordChangedAt',
-    })
-    .populate('responses');
-
-  req.body.doc = popDoc;
+    });
 
   res.status(201).json({
     status: 'success',
@@ -45,8 +42,7 @@ exports.createOne = catchAsync(async (req, res, next) => {
  **/
 exports.getOne = catchAsync(async (req, res, next) => {
   const doc = await Form.findById(req.params.id)
-    .populate('user')
-    .populate('responses');
+  .populate('user');
 
   if (!doc) {
     return next(new AppError('No document found with that ID', 400));
