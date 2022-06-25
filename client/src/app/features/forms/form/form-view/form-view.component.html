@@ -2,7 +2,7 @@
 <form>
     <!-- <ng-template appPlaceholder></ng-template> -->
     <div *ngFor="let input of form.inputs; let i = index">
-        <span>{{(i+1) + ". " + input.inputText}}</span>
+        <span>{{(i+1) + ". " + input.inputText}}{{input.required && "*"}}</span>
         <div *ngIf="input.inputType === 'Short answer'">
             <input
                 type="text"
