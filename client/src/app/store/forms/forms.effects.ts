@@ -1,5 +1,5 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, tap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -7,25 +7,39 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as FormsActions from '../forms/forms.actions';
 import { Form } from 'src/app/core/models/form.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class FormsEffects {
-    @Effect({
-        dispatch: false
-    })
+    @Effect()
     addForm = this.actions$.pipe(
         ofType(FormsActions.ADD_FORM),
-        withLatestFrom(this.store.select('forms')),
-        switchMap(([actionData, formsState]) => {
+        switchMap((addFormAction: FormsActions.AddForm) => {
             return this.http
-            .post(
+            .post<any>(
                 'http://localhost:5000/api/forms/',
-                formsState.form
+                addFormAction.payload
             )
         }),
         map((resData => {
-            console.log(resData);
+            return new FormsActions.AddFormSuccess({
+                form: resData.data.doc,
+                redirect: true
+            })
         }))
+    )
+
+    @Effect({
+        dispatch: false
+    })
+    addFormSuccess = this.actions$.pipe(
+        ofType(FormsActions.ADD_FORM_SUCCESS),
+        tap((formAddSuccessAction: FormsActions.AddFormSuccess) => {
+            if (formAddSuccessAction.payload.redirect) {
+                const { id } = formAddSuccessAction.payload.form;
+                this.router.navigate([`/forms/form/${id}`]);
+            }
+        })
     )
 
     @Effect()
@@ -58,6 +72,7 @@ export class FormsEffects {
     constructor(
         private actions$: Actions<FormsActions.FormsActions>,
         private http: HttpClient,
+        private router: Router,
         private store: Store<fromApp.AppState>
     ) {}
 }
