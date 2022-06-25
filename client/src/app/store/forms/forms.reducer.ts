@@ -33,11 +33,12 @@ export function formsReducer(state = initialState, action: FormsActions.FormsAct
                 form: action.payload,
                 isLoading: false
             }
-        case FormsActions.ADD_FORM:
+        case FormsActions.ADD_FORM_SUCCESS:
             return {
                 ...state,
-                form: action.payload,
-                forms: [ ...state.forms, action.payload ]
+                form: action.payload.form,
+                forms: [ ...state.forms, action.payload.form ],
+                loading: false
             };
         case FormsActions.SET_FORMS:
             return {
