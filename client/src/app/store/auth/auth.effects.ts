@@ -20,7 +20,7 @@ export interface AuthResponseData {
 }
 
 const handleAuthentication = (
-    user: User,
+    user: User
 ) => {
     localStorage.setItem('userData', JSON.stringify(user));
     return new AuthActions.AuthenticateSuccess({
@@ -60,7 +60,9 @@ export class AuthEffects {
                 signupData.payload
             ).pipe(
                 map(resData => {
-                    return handleAuthentication(resData.data.user);
+                    const { id, firstName, lastName, username, email, role } = resData.data.user;
+                    const newUser = new User( id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn);
+                    return handleAuthentication(newUser);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
@@ -81,7 +83,9 @@ export class AuthEffects {
                 authData.payload
             ).pipe(
                 map(resData => {
-                    return handleAuthentication(resData.data.user);
+                    const { id, firstName, lastName, username, email, role } = resData.data.user;
+                    const newUser = new User( id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn);
+                    return handleAuthentication(newUser);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
@@ -109,7 +113,7 @@ export class AuthEffects {
         ofType(AuthActions.AUTO_LOGIN),
         map(() => {
             const userData: {
-                _id: string,
+                id: string,
                 email: string,
                 firstName: string,
                 lastName: string,
@@ -123,7 +127,7 @@ export class AuthEffects {
                 return { type: 'DUMMY' };
             }
             const loadedUser = new User(
-                userData._id,
+                userData.id,
                 userData.email,
                 userData.firstName,
                 userData.lastName,

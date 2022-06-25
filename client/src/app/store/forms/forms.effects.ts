@@ -22,7 +22,10 @@ export class FormsEffects {
                 'http://localhost:5000/api/forms/',
                 formsState.form
             )
-        })
+        }),
+        map((resData => {
+            console.log(resData);
+        }))
     )
 
     @Effect()

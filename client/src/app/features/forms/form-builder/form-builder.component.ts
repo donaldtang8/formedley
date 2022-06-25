@@ -97,7 +97,7 @@ export class FormBuilderComponent implements OnInit {
                     take(1)
                 )
                 .subscribe(userState => {
-                   userId = userState.user._id;
+                   userId = userState.user.id;
                 }
             )
             const newForm = new Form(this.formBuilder.get('title').value, userId, inputArr);
