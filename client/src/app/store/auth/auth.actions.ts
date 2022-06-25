@@ -8,6 +8,7 @@ export const SIGNUP = '[Auth] Signup';
 export const CLEAR_ERROR = '[Auth] Clear Error';
 export const AUTO_LOGIN = '[Auth] Auto Login';
 export const LOGOUT = '[Auth] Logout';
+export const RESET_AUTH_STATE = '[Auth] Reset auth state';
 
 export class AuthenticateSuccess implements Action {
     readonly type = AUTHENTICATE_SUCCESS;
@@ -50,6 +51,10 @@ export class AutoLogin implements Action {
     readonly type = AUTO_LOGIN;
 }
 
+export class ResetAuthState implements Action {
+    readonly type = RESET_AUTH_STATE;
+}
+
 export type AuthActions = 
     | AuthenticateSuccess
     | Logout
@@ -57,4 +62,5 @@ export type AuthActions =
     | AuthenticateFail
     | Signup
     | ClearError
-    | AutoLogin;
+    | AutoLogin
+    | ResetAuthState;

@@ -39,6 +39,13 @@ export function responsesReducer(state = initialState, action: ResponsesActions.
                 response: action.payload,
                 isLoading: false
             }
+        case ResponsesActions.RESET_RESPONSE_STATE:
+            return {
+                ...state,
+                responses: [],
+                response: null,
+                isLoading: false
+            }
         default:
             return state;
     }

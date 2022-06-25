@@ -38,7 +38,7 @@ export function formsReducer(state = initialState, action: FormsActions.FormsAct
                 ...state,
                 form: action.payload.form,
                 forms: [ ...state.forms, action.payload.form ],
-                loading: false
+                isLoading: false
             };
         case FormsActions.SET_FORMS:
             return {
@@ -51,6 +51,13 @@ export function formsReducer(state = initialState, action: FormsActions.FormsAct
                 forms: state.forms.filter((form, index) => {
                     return index !== action.payload
                 })
+            }
+        case FormsActions.RESET_FORM_STATE:
+            return {
+                ...state,
+                forms: [],
+                form: null,
+                isLoading: false
             }
         default:
             return state;
