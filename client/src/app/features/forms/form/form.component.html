@@ -3,6 +3,7 @@
         <app-form-response-builder [form]="form"></app-form-response-builder>
     </div>
     <ng-template #viewMode>
+        <div (click)="viewResponses()">View Response</div>
         <app-form-view [form]="form"></app-form-view>
     </ng-template>
 </div>

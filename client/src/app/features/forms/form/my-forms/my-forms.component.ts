@@ -28,7 +28,7 @@ export class MyFormsComponent implements OnInit {
                 return authState.user;
             }),
             switchMap(user => {
-                this.store.dispatch(new FormsActions.FetchFormsByUser(user._id));
+                this.store.dispatch(new FormsActions.FetchFormsByUser(user.id));
                 return this.store.select('forms');
             }),
             map(formsState => {

@@ -115,7 +115,7 @@ export class FormResponseBuilderComponent implements OnInit {
                     take(1)
                 )
                 .subscribe(userState => {
-                   userId = userState.user._id;
+                   userId = userState.user.id;
                 }
             )
         }

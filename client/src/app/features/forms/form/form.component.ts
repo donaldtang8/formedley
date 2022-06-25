@@ -37,7 +37,7 @@ export class FormComponent implements OnInit {
 
         this.userSubject.subscribe(user => {
             if (this.form) {
-                this.isResponseMode = (this.form.userId === user._id) ? false : true;
+                this.isResponseMode = (this.form.userId === user.id) ? false : true;
                 this.loading = false;
             }
         })
