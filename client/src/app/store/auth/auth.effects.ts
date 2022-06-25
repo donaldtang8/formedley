@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { mergeMap, of } from 'rxjs';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { AuthService } from '../../features/auth/auth.service';
 import { User } from '../../core/models/user.model';
 
 import * as AuthActions from './auth.actions';
+import * as FormsActions from '../forms/forms.actions';
+import * as ResponsesActions from '../responses/responses.actions';
 
 export interface AuthResponseData {
     status: string,
@@ -152,15 +153,20 @@ export class AuthEffects {
         })
     )
 
-    @Effect({
-        dispatch: false
-    })
+    @Effect()
     authLogout = this.actions$.pipe(
         ofType(AuthActions.LOGOUT),
         tap(() => {
             this.authService.clearLogoutTimer();
             localStorage.removeItem('userData');
             this.router.navigate(['/auth']);
+        }),
+        mergeMap(() => {
+            return [
+                new FormsActions.ResetFormState(),
+                new ResponsesActions.ResetResponsesState(),
+                new AuthActions.ResetAuthState()
+            ]
         })
     )
 
