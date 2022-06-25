@@ -11,7 +11,7 @@ export const ADD_FORM_SUCCESS = '[Forms] Add form success'
 export const SET_FORMS = '[Forms] Set forms';
 export const SET_FORM = '[Forms] Set form';
 export const DELETE_FORM = '[Forms] Delete form';
-
+export const RESET_FORM_STATE = '[Forms] Reset form state';
 
 export class FetchForms implements Action {
     readonly type = FETCH_FORMS;
@@ -74,6 +74,10 @@ export class DeleteForm implements Action {
     constructor(public payload: number) {}
 }
 
+export class ResetFormState implements Action {
+    readonly type = RESET_FORM_STATE;
+}
+
 export type FormsActions = 
     | FetchForms
     | FetchFormById
@@ -84,4 +88,5 @@ export type FormsActions =
     | AddFormSuccess
     | SetForms
     | SetForm
-    | DeleteForm;
+    | DeleteForm
+    | ResetFormState;

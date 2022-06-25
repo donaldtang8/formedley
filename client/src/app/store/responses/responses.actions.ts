@@ -10,6 +10,7 @@ export const FETCH_NEW_RESPONSES_BY_ID = '[Response] Fetch new responses by id';
 export const FETCH_RESPONSES_SUCCESS = '[Response] Fetch responses success';
 export const FETCH_RESPONSE_SUCCESS = '[Response] Fetch response success';
 export const SET_RESPONSE_VIEWED = '[Response] Set response viewed';
+export const RESET_RESPONSE_STATE = '[Response] Reset response state';
 
 export class AddResponse implements Action {
     readonly type = ADD_RESPONSE;
@@ -62,6 +63,10 @@ export class SetResponseViewed implements Action {
     constructor(public payload: {formId: string, responseId: string}) {}
 }
 
+export class ResetResponsesState implements Action {
+    readonly type = RESET_RESPONSE_STATE;
+}
+
 export type ResponsesActions = 
     | AddResponse
     | AddResponseSuccess
@@ -70,4 +75,5 @@ export type ResponsesActions =
     | FetchNewResponsesById
     | FetchResponsesSuccess
     | FetchResponseSuccess
-    | SetResponseViewed;
+    | SetResponseViewed
+    | ResetResponsesState;
