@@ -17,6 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 /* ROUTE IMPORTS*/
 const userRouter = require('./routes/userRoutes');
 const formRouter = require('./routes/formRoutes');
+const responseRouter = require('./routes/responseRoutes');
 
 /* GLOBAL MIDDLEWARES */
 // serving static files
@@ -69,6 +70,7 @@ if (process.env.NODE_ENV === 'production') {
 /* ROUTES */
 app.use('/api/user', userRouter);
 app.use('/api/forms', formRouter);
+app.use('/api/responses', responseRouter);
 
 // for any routes that we have not caught
 app.all('*', (req, res, next) => {

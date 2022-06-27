@@ -57,11 +57,11 @@ export class FormsEffects {
     )
 
     @Effect()
-    fetchFormsByUser = this.actions$.pipe(
-        ofType(FormsActions.FETCH_FORMS_BY_USER),
-        switchMap((fetchFormsUser: FormsActions.FetchFormsByUser) => {
+    fetchMyForms = this.actions$.pipe(
+        ofType(FormsActions.FETCH_MY_FORMS),
+        switchMap((fetchMyForms: FormsActions.FetchMyForms) => {
             return this.http.get<any>(
-                `http://localhost:5000/api/forms/user/${fetchFormsUser.payload}`
+                `http://localhost:5000/api/forms/user/me`
             )
         }),
         map((resData) => {

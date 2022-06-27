@@ -1,0 +1,6 @@
+<div *ngIf="responses.length === 0; else responsesView">
+    You have no responses
+</div>
+<ng-template #responsesView>
+    <app-response-list [responses]="responses"></app-response-list>
+</ng-template>

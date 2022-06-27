@@ -1,1 +1,6 @@
-<app-form-list [forms]="forms"></app-form-list>
+<div *ngIf="forms.length === 0; else formsView">
+    You have no forms
+</div>
+<ng-template #formsView>
+    <app-form-list [forms]="forms"></app-form-list>
+</ng-template>

@@ -20,6 +20,8 @@ exports.deleteOne = factory.deleteOne(Form);
 });
 
 exports.createOne = catchAsync(async (req, res, next) => {
+  if (!req.body.user) req.body.user = req.user.id;
+  
   let doc = await Form.create(req.body);
   
   let popDoc = await Form.findById(doc._id)
@@ -74,6 +76,42 @@ exports.getFormsByUser = catchAsync(async (req, res, next) => {
   const formsPaginate = new APIFeatures(
     Form.find(
         { user: { $eq: req.params.userId } },
+    ),
+    req.query
+  )
+    .sort()
+    .paginate();
+
+  let doc = await formsPaginate.query;
+
+  res.status(200).json({
+    status: 'success',
+    total: forms.length,
+    results: doc.length,
+    data: {
+      doc,
+    },
+  });
+});
+
+/**
+ * @function  getMyForms
+ * @description Find all forms created by user
+ **/
+ exports.getMyForms = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new AppError('User does not exist', 404));
+  }
+
+  let forms = await Form.find(
+    { user: { $eq: user.id }}
+  );
+
+  const formsPaginate = new APIFeatures(
+    Form.find(
+        { user: { $eq: user.id } },
     ),
     req.query
   )

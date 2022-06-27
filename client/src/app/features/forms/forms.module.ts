@@ -16,6 +16,8 @@ import { FormItemComponent } from './form/form-item/form-item.component';
 import { FormViewComponent } from './form/form-view/form-view.component';
 import { ResponsesComponent } from './responses/responses.component';
 import { ResponseItemComponent } from './responses/response-item/response-item.component';
+import { ResponseListComponent } from './responses/responses-list/response-list.component';
+import { MyResponsesComponent } from './responses/my-responses/my-responses.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +32,8 @@ import { ResponseItemComponent } from './responses/response-item/response-item.c
         FormInputResponseComponent,
         ResponsesComponent,
         ResponseItemComponent,
+        ResponseListComponent,
+        MyResponsesComponent
     ],
     imports: [
         CommonModule,
