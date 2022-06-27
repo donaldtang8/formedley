@@ -47,6 +47,19 @@ export class ResponsesEffects {
     )
 
     @Effect()
+    fetchMyResponses = this.actions$.pipe(
+        ofType(ResponsesActions.FETCH_MY_RESPONSES),
+        switchMap((fetchMyResponses: ResponsesActions.FetchMyResponses) => {
+            return this.http.get<any>(
+                `http://localhost:5000/api/responses/user/me`
+            )
+        }),
+        map((resData) => {
+            return new ResponsesActions.FetchResponsesSuccess(resData.data.doc)
+        })
+    )
+
+    @Effect()
     formFormResponses = this.actions$.pipe(
         ofType(ResponsesActions.FETCH_FORM_RESPONSES_BY_ID),
         switchMap((fetchFormResponses: ResponsesActions.FetchFormResponsesById) => {

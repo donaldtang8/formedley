@@ -16,15 +16,17 @@ router.use('/:formId/responses', formController.setParams, responseRouter);
 router
     .route('/')
     .get(formController.getAll)
-    .post(userController.setMe, formController.createOne);
+    .post(formController.createOne);
 
 router
-    .route('/user/:userId')
-    .get(formController.getFormsByUser);
+    .route('/user/me')
+    .get(formController.getMyForms);
 
 router
     .route('/id/:id')
-    .get(formController.getOne)
+    .get(
+        formController.getOne
+    )
     .delete(
       authController.restrictToMe(Form),
       formController.deleteOne
@@ -41,5 +43,11 @@ router
 router
     .route('/view/:id')
     .patch(formController.viewFormById);
+
+router.use(authController.restrictTo('admin'));
+
+router
+    .route('/user/id/:userId')
+    .get(formController.getFormsByUser);
 
 module.exports = router;
