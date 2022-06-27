@@ -3,6 +3,8 @@ const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
 const User = require('./../models/userModel');
+const Form = require('./../models/formModel');
+const Response = require('./../models/responseModel');
 
 exports.getAllUsers = factory.getAll(User);
 exports.updateUser = factory.updateOne(User);

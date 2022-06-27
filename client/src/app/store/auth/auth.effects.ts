@@ -123,7 +123,6 @@ export class AuthEffects {
                 token: string;
                 tokenExpirationDate: string;
             } = JSON.parse(localStorage.getItem('userData') || '{}');
-    
             if (!userData) {
                 return { type: 'DUMMY' };
             }
@@ -137,7 +136,6 @@ export class AuthEffects {
                 userData.token,
                 new Date(userData.tokenExpirationDate)
             );
-            
             if (loadedUser.getToken) {
                 const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
                 this.authService.setLogoutTimer(expirationDuration);

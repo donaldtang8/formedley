@@ -4,6 +4,7 @@ import { FormInputResponse } from 'src/app/core/models/form-input-response.model
 
 export const ADD_RESPONSE = '[Response] Add response';
 export const ADD_RESPONSE_SUCCESS = '[Response] Add response success';
+export const FETCH_MY_RESPONSES = '[Response] Fetch my responses'
 export const FETCH_RESPONSE_BY_ID = '[Response] Fetch response by id';
 export const FETCH_FORM_RESPONSES_BY_ID = '[Response] Fetch form responses by id';
 export const FETCH_NEW_RESPONSES_BY_ID = '[Response] Fetch new responses by id';
@@ -25,6 +26,10 @@ export class AddResponseSuccess implements Action {
         response: FormResponse,
         redirect: boolean
     }) {}
+}
+
+export class FetchMyResponses implements Action {
+    readonly type = FETCH_MY_RESPONSES;
 }
 
 export class FetchFormResponsesById implements Action {
@@ -70,6 +75,7 @@ export class ResetResponsesState implements Action {
 export type ResponsesActions = 
     | AddResponse
     | AddResponseSuccess
+    | FetchMyResponses
     | FetchFormResponsesById
     | FetchResponseById
     | FetchNewResponsesById

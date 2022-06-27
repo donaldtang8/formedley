@@ -15,7 +15,7 @@ exports.deleteOne = factory.deleteOne(Response);
  * @description Set form and user property on request body
  **/
  exports.setFormAndUserId = (req, res, next) => {
-  if (!req.body.form) req.body.form = req.body.params.formId;
+  if (!req.body.form ) req.body.form = req.body.params.formId;
   if (!req.body.user) req.body.user = req.user.id;
   next();
 };
@@ -28,6 +28,18 @@ exports.deleteOne = factory.deleteOne(Response);
   const form = await Form.findById(req.body.params.formId);
   if (!form) {
     return next(new AppError('No form found by that id', 400));
+  }
+  next();
+});
+
+/**
+ * @middleware  validateResponseId
+ * @description Validate response id
+ **/
+ exports.validateResponseId = catchAsync(async (req, res, next) => {
+  const response = await Response.findById(req.params.id);
+  if (!response) {
+    return next(new AppError('No response found by that id', 400));
   }
   next();
 });
@@ -135,6 +147,10 @@ exports.createOne = catchAsync(async (req, res, next) => {
     return next(new AppError('No form found by that id', 400));
   }
 
+  if (form.user._id.toString() !== req.user.id) {
+    return next(new AppError('You do not have permission to do this', 401));
+  }
+
   let responses = await Response.find({
     $and: [
       { form: { $eq: req.body.form } },
@@ -165,17 +181,13 @@ exports.createOne = catchAsync(async (req, res, next) => {
 
 /**
  * @function  getResponsesByUser
- * @description Find all responses created by user given by userID
+ * @description Find all responses created by user given by user id
  **/
 exports.getResponsesByUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.userId);
 
   if (!user) {
     return next(new AppError('User does not exist', 404));
-  }
-
-  if (req.user.id !== req.params.userId) {
-    return next(new AppError('You do not have permission to do this', 401));
   }
 
   let responses = await Response.find(
@@ -204,25 +216,57 @@ exports.getResponsesByUser = catchAsync(async (req, res, next) => {
 });
 
 /**
+ * @function  getMyResponses
+ * @description Find all responses created by user
+ **/
+ exports.getMyResponses = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new AppError('User does not exist', 404));
+  }
+
+  let responses = await Response.find(
+    { user: { $eq: user.id }}
+  );
+
+  const responsesPaginate = new APIFeatures(
+    Response.find(
+        { user: { $eq: user.id } },
+    ),
+    req.query
+  )
+    .sort()
+    .paginate();
+
+  let doc = await responsesPaginate.query;
+
+  res.status(200).json({
+    status: 'success',
+    total: responses.length,
+    results: doc.length,
+    data: {
+      doc,
+    },
+  });
+});
+
+/**
  * @function  viewResponseById
  * @description Set response to viewed given response id
  **/
  exports.viewResponseById = catchAsync(async (req, res, next) => {
-  const form = await Form.findById(req.body.form);
+  const form = await Form.findById(req.body.params.formId);
 
   if (!form) {
-    return next(new AppError('No form found by that id', 400));
-  }
-
-  const response = await Response.findById(req.params.id);
-
-  if (!response) {
     return next(new AppError('Doc does not exist', 404));
   }
 
   if (form.user._id.toString() !== req.user.id) {
     return next(new AppError('You do not have permission to do this', 401));
   }
+
+  const response = await Response.findById(req.params.id);
   
   if(response.viewedResponse()) {
     return next(new AppError('Doc has been viewed', 400));

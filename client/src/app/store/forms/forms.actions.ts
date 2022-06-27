@@ -3,7 +3,7 @@ import { Action } from "@ngrx/store";
 
 export const FETCH_FORMS = '[Form] Fetch forms';
 export const FETCH_FORM_BY_ID = '[Form] Fetch form by id';
-export const FETCH_FORMS_BY_USER = '[Form] Fetch forms by user'
+export const FETCH_MY_FORMS = '[Form] Fetch my forms';
 export const FETCH_FORMS_SUCCESS = '[Form] Fetch forms success';
 export const FETCH_FORM_SUCCESS = '[Form] Fetch form success';
 export const ADD_FORM = '[Forms] Add form';
@@ -23,10 +23,8 @@ export class FetchFormById implements Action {
     constructor(public payload: string) {}
 }
 
-export class FetchFormsByUser implements Action {
-    readonly type = FETCH_FORMS_BY_USER;
-
-    constructor(public payload: string) {}
+export class FetchMyForms implements Action {
+    readonly type = FETCH_MY_FORMS;
 }
 
 export class FetchFormsSuccess implements Action {
@@ -81,7 +79,7 @@ export class ResetFormState implements Action {
 export type FormsActions = 
     | FetchForms
     | FetchFormById
-    | FetchFormsByUser
+    | FetchMyForms
     | FetchFormsSuccess
     | FetchFormSuccess
     | AddForm
