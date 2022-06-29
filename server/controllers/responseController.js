@@ -94,18 +94,20 @@ exports.getFormResponses = catchAsync(async(req, res, next) => {
     return next(new AppError('You do not have permission to do this', 401));
   }
 
-  const formDoc = new APIFeatures(
-    Form.findById(req.body.form)
-      .populate('responses'),
+  const responseDoc = new APIFeatures(
+    Response.find(
+      { form: { $eq: req.body.form } }
+    )
+      .populate('form'),
     req.query
   );
 
-  let doc = await formDoc.query;
+  let doc = await responseDoc.query;
 
   res.status(200).json({
     status: 'success',
     data: {
-      doc: doc.responses
+      doc
     },
   });
 })

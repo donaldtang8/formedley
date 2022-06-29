@@ -81,7 +81,6 @@ export class ResponsesEffects {
             )
         }),
         map((resData) => {
-            console.log(resData.data.doc);
             return new ResponsesActions.FetchResponseSuccess(resData.data.doc)
         })
     )

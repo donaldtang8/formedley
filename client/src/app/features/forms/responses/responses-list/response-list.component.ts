@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, } from '@angular/core';
 
 import { FormResponse } from 'src/app/core/models/form-response.model';
 
@@ -6,10 +6,12 @@ import { FormResponse } from 'src/app/core/models/form-response.model';
     selector: 'app-response-list',
     templateUrl: './response-list.component.html'
 })
-export class ResponseListComponent {
-    @Input() type:string;
+export class ResponseListComponent implements OnInit {
     @Input() responses: FormResponse[];
 
     constructor(
     ) {}
+
+    ngOnInit() {
+    }
 }

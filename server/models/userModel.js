@@ -15,13 +15,6 @@ const userSchema = new mongoose.Schema(
       maxlength: [15, 'Please enter your last name under 15 characters long.'],
       required: [true, 'Last name is required'],
     },
-    username: {
-      type: String,
-      required: [true, 'Username is required'],
-      unique: true,
-      lowercase: true,
-      minlength: [3, 'Username must be at least 3 characters long.'],
-    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -65,7 +58,7 @@ const userSchema = new mongoose.Schema(
 );
 
 /* INDEX */
-userSchema.index({ username: 1 });
+userSchema.index({ email: 1 });
 
 /**
  * @function
