@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { FormInput } from 'src/app/core/models/form-input.model';
@@ -8,6 +8,7 @@ import { FormInput } from 'src/app/core/models/form-input.model';
   templateUrl: './form-input-builder.component.html'
 })
 export class FormInputBuilderComponent implements OnInit {
+  @ViewChild('selectDropdown') selectDropdown: ElementRef;
   questionTypes: string[] = ['Short answer', 'Paragraph', 'Multiple choice']
   type:string = 'Short answer';
   formInputBuilder: FormGroup;
@@ -18,13 +19,13 @@ export class FormInputBuilderComponent implements OnInit {
     data: FormInput,
     valid: boolean
   }>;
-  // @Output() createQuestionEvent: EventEmitter<{name: string, data: FormInput}> = new EventEmitter<{name:string, data: FormInput}>();
-  editMode = false;
   formValid = false;
-  submitted = false;
+  showDropdown = false;
 
-  // if form was submited and form is now invalid, we remove the formcontrol in the parent component
-  constructor() { 
+
+  constructor(
+    private renderer: Renderer2
+  ) { 
   }
 
   get optionsControls() {
@@ -40,21 +41,13 @@ export class FormInputBuilderComponent implements OnInit {
     this.selectOptions.push(new FormGroup({
       option: new FormControl(null, Validators.required)
     }));
-    // listen to form changes
     this.formInputBuilder.valueChanges.subscribe(() => {
-      // if (this.submitted && form is not valid anymore)
       if (this.formInputBuilder.status === "INVALID") {
-        if (this.submitted) {
-          this.childSubject.next({
-            name: this.childSubject.value.name,
-            data: null,
-            valid: false
-          })
-        }
         this.formValid = false;
       } else {
         this.formValid = true;
       }
+      this.handleValueChanges();
     })
   }
 
@@ -68,17 +61,19 @@ export class FormInputBuilderComponent implements OnInit {
     });
   }
 
-  onChangeType(event) {
-    this.type = event.target.value;
+  onChangeType(val) {
     this.formInputBuilder.patchValue({
-      inputType: event.target.value
+      inputType: val
     })
 
-    if (event.target.value === 'Multiple choice') {
+    if (val === 'Multiple choice') {
       this.formInputBuilder.addControl('selectOptions', this.selectOptions);
     } else {
       this.formInputBuilder.removeControl('selectOptions');
     }
+
+    this.type = val;
+    this.toggleDropdown();
   }
 
   toggleMultiSelect() {
@@ -101,7 +96,7 @@ export class FormInputBuilderComponent implements OnInit {
     )
   }
 
-  onSubmit() {
+  handleValueChanges() {
     let formInputOptions = [];
     if (this.formInputBuilder.get('inputType').value === 'Multiple choice') {
       formInputOptions = this.formInputBuilder.get('selectOptions').value.map((value) => {
@@ -115,15 +110,19 @@ export class FormInputBuilderComponent implements OnInit {
       this.formInputBuilder.get('multiselect').value,
       this.formInputBuilder.get('required').value
     )
-    if (this.editMode) {
-      // update form
+    this.childSubject.next({
+      name: this.childSubject.value.name,
+      data: formInput,
+      valid: this.formValid
+    })
+  }
+  
+  toggleDropdown() {
+    if (!this.showDropdown) {
+      this.renderer.removeClass(this.selectDropdown.nativeElement, 'invisible');
     } else {
-      this.childSubject.next({
-        name: this.childSubject.value.name,
-        data: formInput,
-        valid: true
-      })
+      this.renderer.addClass(this.selectDropdown.nativeElement, 'invisible');
     }
-    this.submitted = true;
+    this.showDropdown = !this.showDropdown;
   }
 }

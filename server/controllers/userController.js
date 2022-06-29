@@ -3,8 +3,6 @@ const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
 const User = require('./../models/userModel');
-const Form = require('./../models/formModel');
-const Response = require('./../models/responseModel');
 
 exports.getAllUsers = factory.getAll(User);
 exports.updateUser = factory.updateOne(User);
@@ -81,13 +79,11 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   let convertBody = {};
   if (req.body.firstName) convertBody.fName = req.body.firstName;
   if (req.body.lastName) convertBody.lName = req.body.lastName;
-  if (req.body.username) convertBody.uName = req.body.username;
 
   const filteredBody = filterObj(
     convertBody,
     'fName',
     'lName',
-    'uName',
     'email',
   );
 

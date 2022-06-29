@@ -50,7 +50,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         } else {
             const firstName = form.value.firstName;
             const lastName = form.value.lastName;
-            const username = form.value.username;
             const passwordConfirm = form.value.passwordConfirm;
             if (password !== passwordConfirm) {
                 console.log("Error");
@@ -61,7 +60,6 @@ export class AuthComponent implements OnInit, OnDestroy {
                 this.store.dispatch(new AuthActions.Signup({
                     firstName: firstName,
                     lastName: lastName,
-                    username: username,
                     email: email,
                     password: password,
                     passwordConfirm: passwordConfirm

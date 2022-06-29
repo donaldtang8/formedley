@@ -1,5 +1,5 @@
-<div *ngIf="responses.length > 0">
-    <div *ngFor="let response of responses; let i = index">
-        <div (click)="viewResponses(response.id)">{{ 'Response ' + i }}</div>
+<div class="flex flex-col items-center">
+    <div *ngIf="responses.length > 0">
+        <app-response-list [responses]="responses"></app-response-list>
     </div>
 </div>

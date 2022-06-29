@@ -5,6 +5,8 @@ export class Form {
     likes?: string[];
     likeCount?: number;
     views?: string[];
+    viewCount?: number;
+    responses?: string[];
     createdAt: Date;
 
     constructor(public title: string, public userId: string, public inputs: FormInput[]) {

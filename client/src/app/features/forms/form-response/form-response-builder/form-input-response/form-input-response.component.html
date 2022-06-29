@@ -1,45 +1,56 @@
 <div *ngIf="!formValid">INVALID</div>
 <form [formGroup]="formInputResponseBuilder">
-    <label for="childSubject.getValue(name)">{{ inputQuestion.inputText }}<span *ngIf="inputQuestion.required">*</span></label>
-    <div *ngIf="inputQuestion.inputType==='Short answer'">
-        <input 
-            type="text"
-            placeHolder="Enter your answer"
-            formControlName="inputAnswer"
-            [required]="inputQuestion.required" />
-    </div>
-    <div *ngIf="inputQuestion.inputType==='Paragraph'">
-        <textarea 
-            placeHolder="Enter your answer"
-            formControlName="inputAnswer"
-            [required]="inputQuestion.required">
-        </textarea>
-    </div>
+    <label 
+        for="childSubject.getValue(name)"
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm text-base font-medium border-gray-300 rounded-md">{{ inputQuestion.inputText }}<span *ngIf="inputQuestion.required">*</span></label>
+    <input 
+        *ngIf="inputQuestion.inputType==='Short answer'"
+        type="text"
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+        placeHolder="Enter your answer"
+        formControlName="inputAnswer"
+        [required]="inputQuestion.required" />
+    <textarea 
+        *ngIf="inputQuestion.inputType==='Paragraph'"
+        style="resize: none;"
+        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block sm:text-sm border border-gray-300 rounded-md"
+        rows="3"
+        cols="50"
+        placeHolder="Enter your answer"
+        formControlName="inputAnswer"
+        [required]="inputQuestion.required">
+    </textarea>
     <div *ngIf="inputQuestion.inputType==='Multiple choice'">
         <div *ngFor="let option of inputQuestion.selectOptions; let i = index">
             <div *ngIf="!inputQuestion.multiselect; else multiselectTemplate">
                 <input
                     type="radio"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     id="{{inputQuestionName}}"
                     value="{{option}}"
                     name="{{inputQuestionName}}"
                     formControlName="{{inputQuestionName}}"
                     [required]="inputQuestion.required">
-                <label for="{{inputQuestionName}}">{{ option }}</label><br>
+                <label
+                    for="{{inputQuestionName}}"
+                    class="ml-3 block text-sm font-medium text-gray-700">{{ option }}</label><br>
             </div>
             <ng-template #multiselectTemplate>
                 <input
                     type="checkbox"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                     id="'{{inputQuestionName}}"
                     value="{{option}}"
                     name="{{inputQuestionName}}"
                     formControlName="{{inputQuestionName}}"
                     (change)="updateSelectValues($event)"
                     [required]="inputQuestion.required">
-                <label for="{{inputQuestionName}}">{{ option }}</label><br>
+                <label
+                    for="{{inputQuestionName}}"
+                    class="ml-3 text-sm font-medium text-gray-700">{{ option }}</label><br>
             </ng-template>
         </div>
     </div>
 
-    <button type="button" (click)="testValidity()">Get input info</button>
+    <!-- <button type="button" (click)="testValidity()">Get input info</button> -->
 </form>

@@ -61,8 +61,8 @@ export class AuthEffects {
                 signupData.payload
             ).pipe(
                 map(resData => {
-                    const { id, firstName, lastName, username, email, role } = resData.data.user;
-                    const newUser = new User( id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn);
+                    const { id, firstName, lastName, email, role } = resData.data.user;
+                    const newUser = new User( id, email, firstName, lastName, role, resData.data.token, resData.data.expiresIn);
                     return handleAuthentication(newUser);
                 }),
                 catchError(errorResponse => {
@@ -84,8 +84,8 @@ export class AuthEffects {
                 authData.payload
             ).pipe(
                 map(resData => {
-                    const { id, firstName, lastName, username, email, role } = resData.data.user;
-                    const newUser = new User( id, email, firstName, lastName, username, role, resData.data.token, resData.data.expiresIn);
+                    const { id, firstName, lastName, email, role } = resData.data.user;
+                    const newUser = new User( id, email, firstName, lastName, role, resData.data.token, resData.data.expiresIn);
                     return handleAuthentication(newUser);
                 }),
                 catchError(errorResponse => {
@@ -118,7 +118,6 @@ export class AuthEffects {
                 email: string,
                 firstName: string,
                 lastName: string,
-                username: string,
                 role: string,
                 token: string;
                 tokenExpirationDate: string;
@@ -131,7 +130,6 @@ export class AuthEffects {
                 userData.email,
                 userData.firstName,
                 userData.lastName,
-                userData.username,
                 userData.role,
                 userData.token,
                 new Date(userData.tokenExpirationDate)
