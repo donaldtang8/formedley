@@ -36,12 +36,7 @@ export class ResponsesComponent implements OnInit {
                 return responsesState.responses;
             })
         ).subscribe(responses => {
-            console.log(responses);
             this.responses = responses;
         });
-    }
-
-    viewResponses(responseId):void {
-        this.router.navigate([`/forms/form/${this.id}/response/${responseId}`]);
     }
 }

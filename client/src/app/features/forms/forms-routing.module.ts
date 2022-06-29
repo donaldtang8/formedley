@@ -7,6 +7,7 @@ import { FormComponent } from './form/form.component';
 import { FormResponseBuilderComponent } from './form-response/form-response-builder.component';
 import { ResponsesComponent } from './responses/responses.component';
 import { ResponseItemComponent } from './responses/response-item/response-item.component';
+import { ResponseViewComponent } from './responses/response-view/response-view.component';
 import { MyFormsComponent } from './form/my-forms/my-forms.component';
 import { MyResponsesComponent } from './responses/my-responses/my-responses.component';
 
@@ -24,7 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'form/:id/response/:responseId',
-        component: ResponseItemComponent,
+        component: ResponseViewComponent,
         canActivate: [AuthGuard]
     },
     // {

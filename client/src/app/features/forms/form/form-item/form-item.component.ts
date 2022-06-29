@@ -1,10 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
-import * as fromApp from '../../../../store/app.reducer';
-import * as FormActions from '../../../../store/forms/forms.actions';
-import { map, switchMap } from 'rxjs/operators';
 import { Form } from 'src/app/core/models/form.model';
 
 @Component({
@@ -16,8 +12,6 @@ export class FormItemComponent {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
-        private store: Store<fromApp.AppState>,
     ) {}
 
     navigateToForm():void {

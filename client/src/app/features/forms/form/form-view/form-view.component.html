@@ -1,46 +1,42 @@
-<div>{{form.title}}</div>
-<form>
-    <!-- <ng-template appPlaceholder></ng-template> -->
-    <div *ngFor="let input of form.inputs; let i = index">
-        <span>{{(i+1) + ". " + input.inputText}}{{input.required && "*"}}</span>
-        <div *ngIf="input.inputType === 'Short answer'">
-            <input
-                type="text"
-                disabled
-            />
-        </div>
-        <div *ngIf="input.inputType === 'Paragraph'">
-            <textarea
-                style="resize: none;"
-                disabled
-            >
-            </textarea>
-        </div>
-        <div *ngIf="input.inputType === 'Multiple choice'">
-            <div *ngFor="let option of input.selectOptions; let optionIndex = index">
-                <div *ngIf="!input.multiselect">
-                    <input
-                        type="radio"
-                        id="'question#'+index"
-                        name="'question#'+index"
-                        value={{option}}
-                        disabled
-                    />
-                    <label for="'question#'+index">{{option}}</label>
-                </div>
-                <div *ngIf="input.multiselect">
-                    <input
-                        type="checkbox"
-                        id="'question#'+index"
-                        name="'question#'+index"
-                        value={{option}}
-                        disabled
-                    />
-                    <label for="'question#'+index">{{option}}</label>
-                </div>
+<div class="text-xl font-medium text-indigo-600">{{form.title}}</div>
+<div *ngFor="let input of form.inputs; let i = index">
+    <span class="text-sm font-medium text-gray-700">{{(i+1) + ". " + input.inputText}}</span><span *ngIf="input.required">*</span>
+    <div *ngIf="input.inputType === 'Short answer'">
+        <input
+            type="text"
+            class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+            disabled
+        />
+    </div>
+    <div *ngIf="input.inputType === 'Paragraph'">
+        <textarea rows="3" cols="30" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block sm:text-sm border border-gray-300 rounded-md" style="resize: none;" disabled></textarea>
+    </div>
+    <div *ngIf="input.inputType === 'Multiple choice'">
+        <div *ngFor="let option of input.selectOptions; let optionIndex = index">
+            <div *ngIf="!input.multiselect">
+                <input
+                    type="radio"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    id="'question#'+index"
+                    name="'question#'+index"
+                    value={{option}}
+                    disabled
+                />
+                <label for="'question#'+index">{{option}}</label>
+            </div>
+            <div *ngIf="input.multiselect">
+                <input
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    type="checkbox"
+                    id="'question#'+index"
+                    name="'question#'+index"
+                    value={{option}}
+                    disabled
+                />
+                <label class="ml-1 text-sm font-medium text-gray-700" for="'question#'+index">{{option}}</label>
             </div>
         </div>
-        <br />
     </div>
-</form>
+    <br />
+</div>
     

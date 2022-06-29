@@ -18,6 +18,7 @@ import { ResponsesComponent } from './responses/responses.component';
 import { ResponseItemComponent } from './responses/response-item/response-item.component';
 import { ResponseListComponent } from './responses/responses-list/response-list.component';
 import { MyResponsesComponent } from './responses/my-responses/my-responses.component';
+import { ResponseViewComponent } from './responses/response-view/response-view.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { MyResponsesComponent } from './responses/my-responses/my-responses.comp
         ResponsesComponent,
         ResponseItemComponent,
         ResponseListComponent,
-        MyResponsesComponent
+        MyResponsesComponent,
+        ResponseViewComponent
     ],
     imports: [
         CommonModule,
