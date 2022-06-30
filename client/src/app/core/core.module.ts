@@ -24,7 +24,7 @@ import { HomePageComponent } from './pages/home/home-page.component';
         RouterModule
     ],
     exports: [
-        HeaderComponent,
+        HeaderComponent, 
         HomePageComponent
     ]
 })
