@@ -1,6 +1,4 @@
-<div>
-    <p>{{ message }}</p>
-    <div>
-        <button (click)="onClose()">Close</button>
-    </div>
+<div #alert class="flex justify-center rounded-lg py-5 px-6 mb-4 text-base mb-3" role="alert">
+    <div>{{ alertMessage }}</div>
+    <button type="button" class="absolute right-8" (click)="onClose()">x</button>
 </div>
