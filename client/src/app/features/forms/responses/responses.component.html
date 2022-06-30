@@ -1,5 +1,8 @@
-<div class="flex flex-col items-center">
-    <div *ngIf="responses.length > 0">
-        <app-response-list [responses]="responses"></app-response-list>
+<div class="mt-10 flex flex-col items-center">
+    <div *ngIf="responses.length > 0; else emptyMessage">
+        <app-response-list [responses]="responses" [type]="'object'"></app-response-list>
     </div>
+    <ng-template #emptyMessage>
+        There are currently no responses!
+    </ng-template>
 </div>
