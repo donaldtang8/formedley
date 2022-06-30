@@ -22,6 +22,7 @@ export class FormInputResponseComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
+        console.log(this.inputQuestion);
         this.initFormGroup();
         this.formValid = this.inputQuestion.required ? false : true;
         this.formInputResponseBuilder.valueChanges.subscribe(() => {

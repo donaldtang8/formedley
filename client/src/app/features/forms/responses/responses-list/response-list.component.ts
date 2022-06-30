@@ -8,6 +8,7 @@ import { FormResponse } from 'src/app/core/models/form-response.model';
 })
 export class ResponseListComponent implements OnInit {
     @Input() responses: FormResponse[];
+    @Input() type: string;
 
     constructor(
     ) {}
