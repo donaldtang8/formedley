@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { FormInput } from 'src/app/core/models/form-input.model';
@@ -14,11 +14,20 @@ export class FormInputBuilderComponent implements OnInit {
   formInputBuilder: FormGroup;
   selectOptions = new FormArray([]);
   @Input() name: string;
+  @Input() index: number;
   @Input() childSubject: BehaviorSubject<{
     name: string,
     data: FormInput,
     valid: boolean
   }>;
+  @Output() removeQuestion = new EventEmitter<{
+    name: string,
+    index:number,
+    childSubject: BehaviorSubject<{
+      name: string,
+      data: FormInput,
+      valid: boolean
+    }>}>(null);
   formValid = false;
   showDropdown = false;
 
@@ -96,6 +105,10 @@ export class FormInputBuilderComponent implements OnInit {
     )
   }
 
+  onRemoveOption(index) {
+    (<FormArray>this.formInputBuilder.get('selectOptions')).removeAt(index);
+  }
+
   handleValueChanges() {
     let formInputOptions = [];
     if (this.formInputBuilder.get('inputType').value === 'Multiple choice') {
@@ -124,5 +137,13 @@ export class FormInputBuilderComponent implements OnInit {
       this.renderer.addClass(this.selectDropdown.nativeElement, 'invisible');
     }
     this.showDropdown = !this.showDropdown;
+  }
+
+  onRemoveQuestion() {
+    this.removeQuestion.emit({
+      name: this.name, 
+      index: this.index,
+      childSubject: this.childSubject
+    });
   }
 }

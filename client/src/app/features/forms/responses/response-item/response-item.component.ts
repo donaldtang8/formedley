@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormResponse } from 'src/app/core/models/form-response.model';
 
 import { FormResponsePop } from 'src/app/core/models/populated/form-response-pop.model';
 
@@ -8,7 +9,9 @@ import { FormResponsePop } from 'src/app/core/models/populated/form-response-pop
     templateUrl: './response-item.component.html'
 })
 export class ResponseItemComponent implements OnInit {
-    @Input() response: FormResponsePop;
+    @Input() type: string;
+    @Input() responsePop?: FormResponsePop;
+    @Input() response?: FormResponse;
     @Input() index: any;
 
     constructor(
@@ -17,9 +20,15 @@ export class ResponseItemComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.response);
     }
 
     navigateToResponse() {
-        this.router.navigate([`/forms/form/${this.response.form.id}/response/${this.response.id}`]);
+        if (this.type === 'object') {
+            this.router.navigate([`/forms/form/${this.responsePop.form.id}/response/${this.response.id}`]);
+        } else {
+            this.router.navigate([`/forms/form/${this.response.form}/response/${this.response.id}`]);
+        }
+       
     }
 }

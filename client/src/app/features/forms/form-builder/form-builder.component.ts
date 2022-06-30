@@ -46,7 +46,7 @@ export class FormBuilderComponent implements OnInit {
 
     addQuestion() {
         const viewContainerRef = this.formBuilderHost.viewContainerRef;
-        const componentRef = viewContainerRef.createComponent(FormInputBuilderComponent);
+        let componentRef = viewContainerRef.createComponent(FormInputBuilderComponent);
         const qName = `question#${this.counter}`;
         const qSubject = new BehaviorSubject<{
             name: string,
@@ -58,6 +58,8 @@ export class FormBuilderComponent implements OnInit {
             valid: false
         });
         componentRef.instance.childSubject = qSubject;
+        componentRef.instance.name = qName;
+        componentRef.instance.index = this.counter;
         this.childCompSubjects.push(qSubject);
         qSubject.subscribe(val => {
             if (val.data) {
@@ -74,6 +76,13 @@ export class FormBuilderComponent implements OnInit {
             // when we submit a new question from the child component, line 43 runs first, and the check valid function is run before we have
             // a chance to update the child valid boolean
             // possible solution - use one subject that will take both the validity of the child form as well as the form data
+        })
+        componentRef.instance.removeQuestion.subscribe((data) => {
+            this.formBuilder.removeControl(data.name);
+            const compIndex = viewContainerRef.indexOf(componentRef.hostView);
+            viewContainerRef.remove(compIndex);
+            const subjIndex = this.childCompSubjects.indexOf(data.childSubject);
+            this.childCompSubjects.splice(subjIndex, 1);
         })
         this.counter++;
     }
@@ -104,13 +113,5 @@ export class FormBuilderComponent implements OnInit {
             this.store.dispatch(new FormActions.AddForm(newForm));
             this.router.navigate(['/']);
         }
-    }
-
-    testSubjectValues() {
-        console.log(this.childCompSubjects);
-    }
-
-    retrieveForms() {
-        this.store.dispatch(new FormActions.FetchForms());
     }
 }
