@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 import { AlertComponent } from './alert/alert.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
+import { AlertDirective } from './alert/alert.directive';
 
 @NgModule({
     declarations: [
         AlertComponent,
         LoadingSpinnerComponent,
-        PlaceholderDirective
+        PlaceholderDirective,
+        AlertDirective
     ],
     imports: [
         CommonModule
@@ -18,6 +20,7 @@ import { PlaceholderDirective } from './placeholder/placeholder.directive';
         AlertComponent,
         LoadingSpinnerComponent,
         PlaceholderDirective,
+        AlertDirective,
         CommonModule
     ]
 })
