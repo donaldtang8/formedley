@@ -1,7 +1,9 @@
-import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { AlertDirective } from '../../shared/alert/alert.directive';
+import { AlertComponent } from '../../shared/alert/alert.component';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../../store/auth/auth.actions';
@@ -11,9 +13,10 @@ import * as AuthActions from '../../store/auth/auth.actions';
     templateUrl: './auth.component.html'
 })
 export class AuthComponent implements OnInit, OnDestroy {
+    @ViewChild(AlertDirective, { static: true }) appAlert: AlertDirective;
     isLoginMode = true;
     isLoading = false;
-    error!: string;
+    error: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
     private storeSub: Subscription;
 
@@ -22,10 +25,22 @@ export class AuthComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        console.log("Loaded auth component");
         this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
-            this.error = authState.authError;
+            if (authState.error) {
+                this.error.next(authState.error);
+            }
+            
+        })
+        this.error.subscribe(error => {
+            if (error) {
+                this.setupAlert(error);
+                this.store.dispatch(new AuthActions.ClearError());
+            }
+            setTimeout(() => {
+                const viewContainerRef = this.appAlert.viewContainerRef;
+                viewContainerRef.clear();
+            }, 3000);
         })
     }
 
@@ -34,13 +49,17 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     onSubmit(form: NgForm) {
-        console.log("Submitting form");
         if (!form.valid) {
+            if (this.isLoginMode) {
+                this.error.next('Incorrect username or password');
+            } else {
+                this.error.next('Invalid fields')
+            }
             return;
         }
+
         const email = form.value.email;
         const password = form.value.password;
-
         if (this.isLoginMode) {
             // request to login
              this.store.dispatch(new AuthActions.Login({
@@ -52,11 +71,9 @@ export class AuthComponent implements OnInit, OnDestroy {
             const lastName = form.value.lastName;
             const passwordConfirm = form.value.passwordConfirm;
             if (password !== passwordConfirm) {
-                console.log("Error");
-                this.error = 'Passwords must match';
+                this.error.next('Passwords must match');
             }
             else {
-                console.log("Sending action");
                 this.store.dispatch(new AuthActions.Signup({
                     firstName: firstName,
                     lastName: lastName,
@@ -66,11 +83,19 @@ export class AuthComponent implements OnInit, OnDestroy {
                 }))
             }
         }
-        // form.reset();
     }
 
-    onHandleError() {
-        // handle error
+    setupAlert(error: string) {
+        if (this.appAlert) {
+            const viewContainerRef = this.appAlert.viewContainerRef;
+            viewContainerRef.clear();
+            const componentRef = viewContainerRef.createComponent(AlertComponent);
+            componentRef.instance.type = 'danger';
+            componentRef.instance.alertMessage = error;
+            componentRef.instance.delete.subscribe(() => {
+                viewContainerRef.clear();
+            })
+        }
     }
 
     ngOnDestroy() {
