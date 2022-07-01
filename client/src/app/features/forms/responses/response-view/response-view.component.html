@@ -1,10 +1,10 @@
-<div *ngIf="response" class="text-center">
+<div *ngIf="response" class="mt-5 text-center">
     <div class="inline-block text-left">
         <div *ngFor="let input of response.responses; let i = index" class="my-5">
-            <span class="text-base font-medium text-gray-700">{{(i+1) + ". " + input.inputText}}</span><span *ngIf="input.required">*</span>
+            <span class="text-lg font-medium text-gray-700">{{(i+1) + ". " + input.inputText}}</span><span *ngIf="input.required">*</span>
             <div
                 *ngIf="input.inputAnswer"
-                class="text-base font-bold text-indigo-600">
+                class="ml-3 text-base font-bold text-indigo-600">
                 {{ input.inputAnswer }}
             </div>
             <div *ngIf="input.selectedOptions.length > 0">
@@ -12,25 +12,25 @@
                 <div *ngIf="input.selectedOptions.length == 1; else multichoice">
                     <input
                         type="radio"
-                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        class="mr-1 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                         id="'question#'+index"
                         name="'question#'+index"
                         value={{input.selectedOptions[0]}}
                         disabled
                     />
-                    <label for="'question#'+index">{{input.selectedOptions[0]}}</label>
+                    <label class="ml-1 text-sm font-bold text-indigo-600" for="'question#'+index">{{input.selectedOptions[0]}}</label>
                 </div>
                 <!-- checkbox -->
                 <ng-template #multichoice>
                     <div *ngFor="let option of input.selectedOptions">
                         <input
-                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                        type="checkbox"
-                        id="'question#'+index"
-                        name="'question#'+index"
-                        value={{option}}
-                        checked
-                        disabled
+                            class="mr-1 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                            type="checkbox"
+                            id="'question#'+index"
+                            name="'question#'+index"
+                            value={{option}}
+                            checked
+                            disabled
                     />
                     <label class="ml-1 text-sm font-bold text-indigo-600" for="'question#'+index">{{option}}</label>
                     </div>

@@ -11,6 +11,7 @@ import { FormInput } from 'src/app/core/models/form-input.model';
 export class FormInputResponseComponent implements OnInit {
     @Input() inputQuestion: FormInput;
     @Input() inputQuestionName: string;
+    @Input() index: number;
     @Input() childSubject: BehaviorSubject<{
         name: string,
         data: FormInputResponse,
