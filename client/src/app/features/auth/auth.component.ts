@@ -7,6 +7,7 @@ import { AlertComponent } from '../../shared/alert/alert.component';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../../store/auth/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-auth',
@@ -21,12 +22,16 @@ export class AuthComponent implements OnInit, OnDestroy {
     private storeSub: Subscription;
 
     constructor(
-        private store: Store<fromApp.AppState>
+        private store: Store<fromApp.AppState>,
+        private router: Router
     ) {}
 
     ngOnInit() {
         this.storeSub = this.store.select('auth').subscribe(authState => {
             this.isLoading = authState.loading;
+            if (authState.user) {
+                this.router.navigate(['/']);
+            }
             if (authState.error) {
                 this.error.next(authState.error);
             }
