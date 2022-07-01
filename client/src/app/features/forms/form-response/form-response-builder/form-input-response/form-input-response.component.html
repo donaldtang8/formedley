@@ -1,12 +1,12 @@
-<div *ngIf="!formValid">INVALID</div>
+<div class="my-5" *ngIf="!formValid">INVALID</div>
 <form class="my-5" [formGroup]="formInputResponseBuilder">
     <label 
         for="childSubject.getValue(name)"
-        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm text-base font-medium border-gray-300 rounded-md">{{ inputQuestion.inputText }}<span *ngIf="inputQuestion.required">*</span></label>
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm text-base font-medium border-gray-300 rounded-md">{{ (index+1) + '. ' + inputQuestion.inputText }}<span *ngIf="inputQuestion.required">*</span></label>
     <input 
         *ngIf="inputQuestion.inputType==='Short answer'"
         type="text"
-        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+        class="mt-1 w-full focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
         placeHolder="Enter your answer"
         formControlName="inputAnswer"
         [required]="inputQuestion.required" />

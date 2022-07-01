@@ -1,7 +1,7 @@
-<div class="flex flex-col items-center">
-    <div *ngIf="responses.length === 0; else responsesView">
-        You have no responses
-    </div>
+<div class="pt-5 flex flex-col items-center">
+    <h2 class="font-bold text-lg" *ngIf="responses.length === 0; else responsesView">
+        You have no responses!
+    </h2>
     <ng-template #responsesView>
         <app-response-list [responses]="responses" [type]="'string'"></app-response-list>
     </ng-template>

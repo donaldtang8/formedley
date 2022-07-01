@@ -2,7 +2,7 @@
     <div class="inline-block text-left" style="min-width: 25%;">
         <input
         type="text"
-        class="my-5 w-full focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm border-gray-300 rounded-md"
+        class="my-8 w-full font-semibold focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm border-gray-300 rounded-md"
         name="title"
         id="title"
         formControlName="title"
@@ -17,8 +17,8 @@
             type="submit"
             class="{{
                 !formValid 
-                    ? 'ml-1 mt-5 block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gray-300'
-                    : 'ml-1 mt-5 block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-700 cursor-pointer' 
+                    ? 'ml-1 mt-5 mb-8 block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gray-300'
+                    : 'ml-1 mt-5 mb-8 block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-700 cursor-pointer' 
                 }}" 
                 [disabled]="!formValid"
             >

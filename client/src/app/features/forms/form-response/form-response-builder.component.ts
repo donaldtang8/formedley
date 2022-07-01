@@ -75,6 +75,7 @@ export class FormResponseBuilderComponent implements OnInit {
                 componentRef.instance.childSubject = qSubject;
                 componentRef.instance.inputQuestion = input;
                 componentRef.instance.inputQuestionName = qName;
+                componentRef.instance.index = this.counter;
                 this.childCompSubjects.push(qSubject);
                 qSubject.subscribe(val => {
                     if (this.formResponseBuilder.get(val.name)) {
