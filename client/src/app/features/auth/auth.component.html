@@ -12,87 +12,94 @@
     <form class="mt-8 space-y-6" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
       <div *ngIf="!isLoginMode" class="rounded-md shadow-sm -space-y-px">
         <div>
-          <label for="firstName" class="sr-only">First name</label>
+          <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
           <input
             id="firstName"
             name="firstName"
             type="text"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="First name"
+            class="formControl my-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             ngModel
             required>
         </div>
 
         <div>
-          <label for="lastName" class="sr-only">Last name</label>
+          <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
           <input
             id="lastName"
             name="lastName"
             type="text"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Last name"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             ngModel
             required>
         </div>
 
         <div>
-          <label for="email" class="sr-only">Email address</label>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
           <input
             id="email"
             name="email"
             type="email"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Email address"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             ngModel
             required>
         </div>
 
         <div>
-          <label for="password" class="sr-only">Password</label>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Password"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             ngModel
             required>
         </div>
 
         <div>
-          <label for="passwordConfirm" class="sr-only">Confirm Password</label>
+          <label for="passwordConfirm" class="block text-sm font-medium text-gray-700">Confirm Password</label>
           <input
             id="passwordConfirm"
             name="passwordConfirm"
             type="password"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Confirm Password"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             ngModel
             required>
         </div>
       </div>
       <div *ngIf="isLoginMode" class="rounded-md shadow-sm -space-y-px">
         <div>
-          <label for="email" class="sr-only">Email address</label>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
           <input
             id="email"
             name="email"
             type="email"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             placeholder="Email address"
             ngModel
             required>
         </div>
         <div>
-          <label for="password" class="sr-only">Password</label>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            class="formControl appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            class="formControl mt-1 mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             placeholder="Password"
             ngModel
             required>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input 
+            id="remember"
+            name="remember"
+            type="checkbox"
+            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            ngModel>
+          <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember me </label>
         </div>
       </div>
 

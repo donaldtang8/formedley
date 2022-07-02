@@ -21,9 +21,12 @@ export interface AuthResponseData {
 }
 
 const handleAuthentication = (
-    user: User
+    user: User,
+    remember: boolean
 ) => {
-    localStorage.setItem('userData', JSON.stringify(user));
+    if (remember) {
+        localStorage.setItem('userData', JSON.stringify(user));
+    }
     return new AuthActions.AuthenticateSuccess({
         user: user,
         redirect: true
@@ -47,12 +50,12 @@ export class AuthEffects {
         switchMap((signupData: AuthActions.Signup) => {
             return this.http.post<AuthResponseData>(
                 'http://localhost:5000/api/user/signup',
-                signupData.payload
+                signupData.payload.user
             ).pipe(
                 map(resData => {
                     const { id, firstName, lastName, email, role } = resData.data.user;
                     const newUser = new User( id, email, firstName, lastName, role, resData.data.token, resData.data.expiresIn);
-                    return handleAuthentication(newUser);
+                    return handleAuthentication(newUser, signupData.payload.remember);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
@@ -67,15 +70,15 @@ export class AuthEffects {
     @Effect()
     authLogin = this.actions$.pipe(
         ofType(AuthActions.LOGIN),
-        switchMap((authData: AuthActions.Login) => {
+        switchMap((loginData: AuthActions.Login) => {
             return this.http.post<AuthResponseData>(
                 'http://localhost:5000/api/user/login',
-                authData.payload
+                loginData.payload.user
             ).pipe(
                 map(resData => {
                     const { id, firstName, lastName, email, role } = resData.data.user;
                     const newUser = new User( id, email, firstName, lastName, role, resData.data.token, resData.data.expiresIn);
-                    return handleAuthentication(newUser);
+                    return handleAuthentication(newUser, loginData.payload.remember);
                 }),
                 catchError(errorResponse => {
                     // we need to ensure that this observable doesn't end if there is an error or else our login
@@ -124,12 +127,16 @@ export class AuthEffects {
                 new Date(userData.tokenExpirationDate)
             );
             if (loadedUser.getToken) {
-                const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
-                this.authService.setLogoutTimer(expirationDuration);
-                return new AuthActions.AuthenticateSuccess({
-                    user: loadedUser,
-                    redirect: false
-                });
+                const expirationDate = new Date(userData.tokenExpirationDate).getTime();
+                const dateNow = new Date().getTime();
+                if (expirationDate > dateNow) {
+                    const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
+                    this.authService.setLogoutTimer(expirationDuration);
+                    return new AuthActions.AuthenticateSuccess({
+                        user: loadedUser,
+                        redirect: false
+                    });
+                }
             }
             // we only return an action if there is a valid token
             // however, every effect needs to return an action so we need to return a dummy one if there

@@ -10,7 +10,7 @@ export interface State {
 const initialState: State = {
     user: null,
     error: null,
-    loading: false
+    loading: false,
 }
 
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
@@ -20,7 +20,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 ...state,
                 error: null,
                 user: action.payload.user,
-                loading: false
+                loading: false,
             };
         case AuthActions.LOGOUT:
             return {
