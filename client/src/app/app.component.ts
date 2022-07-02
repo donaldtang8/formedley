@@ -15,7 +15,9 @@ export class AppComponent {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new AuthActions.AutoLogin());
+    if (localStorage.getItem('userData')) {
+      this.store.dispatch(new AuthActions.AutoLogin());
+    }
   }
 
   logout() {

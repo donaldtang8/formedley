@@ -11,7 +11,7 @@ import { Form } from 'src/app/core/models/form.model';
 })
 export class MyFormsComponent implements OnInit {
     @Input() type:string;
-    forms: Form[]
+    forms: Form[];
 
     constructor(
         private store: Store<fromApp.AppState>,
