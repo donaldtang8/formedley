@@ -65,12 +65,16 @@ export class AuthComponent implements OnInit, OnDestroy {
 
         const email = form.value.email;
         const password = form.value.password;
+        const remember = !form.value.remember ? false : true;
         if (this.isLoginMode) {
             // request to login
              this.store.dispatch(new AuthActions.Login({
-                email: email,
-                password: password
-             }))
+                user: {
+                    email: email,
+                    password: password
+                },
+                remember: remember 
+            }))
         } else {
             const firstName = form.value.firstName;
             const lastName = form.value.lastName;
@@ -80,11 +84,14 @@ export class AuthComponent implements OnInit, OnDestroy {
             }
             else {
                 this.store.dispatch(new AuthActions.Signup({
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    password: password,
-                    passwordConfirm: passwordConfirm
+                    user: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        password: password,
+                        passwordConfirm: passwordConfirm
+                    },
+                    remember: remember
                 }))
             }
         }

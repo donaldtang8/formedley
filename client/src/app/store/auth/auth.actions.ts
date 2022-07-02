@@ -15,8 +15,8 @@ export class AuthenticateSuccess implements Action {
 
     constructor(
         public payload: { 
-            user: User
-            redirect: boolean
+            user: User,
+            redirect: boolean,
         }
     ) {}
 }
@@ -28,7 +28,10 @@ export class Logout implements Action {
 export class Login implements Action {
     readonly type = LOGIN;
 
-    constructor(public payload: { email: string; password: string }) {}
+    constructor(public payload: {
+        user: { email: string; password: string },
+        remember: boolean
+    }) {}
 }
 
 export class AuthenticateFail implements Action {
@@ -40,7 +43,10 @@ export class AuthenticateFail implements Action {
 export class Signup implements Action {
     readonly type = SIGNUP;
 
-    constructor(public payload: { firstName: string, lastName: string, email: string; password: string, passwordConfirm: string }) {}
+    constructor(public payload: {
+        user: { firstName: string, lastName: string, email: string; password: string, passwordConfirm: string },
+        remember: boolean
+    }) {}
 }
 
 export class ClearError implements Action {
