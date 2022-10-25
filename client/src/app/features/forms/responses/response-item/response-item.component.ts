@@ -13,6 +13,7 @@ export class ResponseItemComponent implements OnInit {
     @Input() responsePop?: FormResponsePop;
     @Input() response?: FormResponse;
     @Input() index: any;
+    createdAt: String;
 
     constructor(
         private router: Router,
@@ -20,7 +21,7 @@ export class ResponseItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.response);
+        this.createdAt = new Date(this.response.createdAt).toLocaleDateString();
     }
 
     navigateToResponse() {
