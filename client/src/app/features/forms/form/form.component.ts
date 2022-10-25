@@ -20,7 +20,7 @@ export class FormComponent implements OnInit {
     user: User;
     userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
     formSubject: BehaviorSubject<Form> = new BehaviorSubject<Form>(null);
-    loading: boolean = true;
+    isLoading: boolean = true;
 
     constructor(
         private router: Router,
@@ -29,6 +29,9 @@ export class FormComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.store.select('forms').subscribe(formsState => {
+            this.isLoading = formsState.isLoading;
+        })
         this.getForm();
 
         this.formSubject.subscribe(form => {
@@ -38,7 +41,7 @@ export class FormComponent implements OnInit {
         this.userSubject.subscribe(user => {
             if (this.form) {
                 this.isResponseMode = (this.form.userId === user.id) ? false : true;
-                this.loading = false;
+                this.isLoading = false;
             }
         })
     }
