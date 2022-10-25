@@ -1,13 +1,16 @@
-<div class="text-center" *ngIf="!loading">
-    <div class="inline-block text-left">
-        <div *ngIf="isResponseMode; else viewMode">
-            <app-form-response-builder [form]="form"></app-form-response-builder>
+<app-loading-spinner *ngIf="isLoading; else formView"></app-loading-spinner>
+<ng-template #formView>
+    <div class="text-center">
+        <div class="inline-block text-left">
+            <div *ngIf="isResponseMode; else viewMode">
+                <app-form-response-builder [form]="form"></app-form-response-builder>
+            </div>
+            <ng-template #viewMode>
+                <div class="w-max p-3 my-5 border border-transparent text-base font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer" (click)="viewResponses()">View Responses</div>
+                <app-form-view [form]="form"></app-form-view>
+            </ng-template>
         </div>
-        <ng-template #viewMode>
-            <div class="w-max p-3 my-5 border border-transparent text-base font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer" (click)="viewResponses()">View Responses</div>
-            <app-form-view [form]="form"></app-form-view>
-        </ng-template>
     </div>
-</div>
+</ng-template>
 
 

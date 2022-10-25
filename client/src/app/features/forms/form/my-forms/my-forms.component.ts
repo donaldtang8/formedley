@@ -12,6 +12,7 @@ import { Form } from 'src/app/core/models/form.model';
 export class MyFormsComponent implements OnInit {
     @Input() type:string;
     forms: Form[];
+    isLoading = false;
 
     constructor(
         private store: Store<fromApp.AppState>,
@@ -21,6 +22,7 @@ export class MyFormsComponent implements OnInit {
         this.store.dispatch(new FormsActions.FetchMyForms());
         this.store.select('forms').subscribe(formsState => {
             this.forms = formsState.forms;
+            this.isLoading = formsState.isLoading;
         });
     }
 }
