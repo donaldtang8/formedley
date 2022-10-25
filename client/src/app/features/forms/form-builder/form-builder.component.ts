@@ -31,6 +31,7 @@ export class FormBuilderComponent implements OnInit {
     childFormValid: boolean = false;
     formValid:boolean = false;
     submitted = false;
+    isLoading = false;
 
     constructor(
         private store: Store<fromApp.AppState>,
@@ -38,7 +39,9 @@ export class FormBuilderComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this will catch the outer form and inner form (submissions only) changes
+        this.store.select('forms').subscribe(formsState => {
+            this.isLoading = formsState.isLoading;
+        })
         this.formBuilder.valueChanges.subscribe(() => {
             this.formValid = this.checkValid();
         })

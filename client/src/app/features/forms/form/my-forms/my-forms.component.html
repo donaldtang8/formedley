@@ -1,23 +1,17 @@
-<div class="pt-5 flex flex-col items-center">
-    <div *ngIf="forms.length === 0; else formsView">
-        <h2 class="font-bold text-lg">You have no forms!</h2>
-        <button
-            type="button"
-            class="mt-5 m-auto block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
-            routerLink="/create">
-                Create one
-        </button>
+<app-loading-spinner *ngIf="isLoading; else formView"></app-loading-spinner>
+<ng-template #formView>
+    <div class="pt-5 flex flex-col items-center">
+        <div *ngIf="forms.length === 0; else formsView">
+            <h2 class="font-bold text-lg">You have no forms!</h2>
+            <button
+                type="button"
+                class="mt-5 m-auto block px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+                routerLink="/create">
+                    Create one
+            </button>
+        </div>
+        <ng-template #formsView>
+            <app-form-list [forms]="forms"></app-form-list>
+        </ng-template>
     </div>
-    <ng-template #formsView>
-        <app-form-list [forms]="forms"></app-form-list>
-    </ng-template>
-</div>
-<!-- <div class="flex flex-col items-center">
-    <div *ngIf="forms | async as forms; else formsView">
-        You have no forms
-    </div>
-    <ng-template #formsView>
-        <app-form-list [forms]="forms"></app-form-list>
-    </ng-template>
-</div> -->
-
+</ng-template>
