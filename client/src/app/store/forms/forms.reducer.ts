@@ -15,6 +15,7 @@ const initialState: State = {
 
 export function formsReducer(state = initialState, action: FormsActions.FormsActions) {
     switch(action.type) {
+        case FormsActions.ADD_FORM:
         case FormsActions.FETCH_FORMS:
         case FormsActions.FETCH_FORM_BY_ID:
             return {
